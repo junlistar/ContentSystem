@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@(ViewBag.Title)</title>
+    <link href="/Content/bootstrap.min.css?v=1.0.1" rel="stylesheet" />
+    <link href="/Content/font-awesome.min.css?v=1.0.1" rel="stylesheet" />
+    <link href="/Content/plugins/sweetalert/sweetalert.css?v=1.0.1" rel="stylesheet" />
+    <link href="/Content/bootstrap-select.min.css?v=1.0.1" rel="stylesheet" />
+    <link href="/Content/animate.css?v=1.0.1" rel="stylesheet" />
+    <link href="/Content/style.css?v=1.0.1" rel="stylesheet" />
+    <link href="/Content/common.css?v=1.0.1" rel="stylesheet" />
+    <link href="/Content/fileinput.min.css?v=1.0.1" rel="stylesheet" />
+    <link href="/Content/fancybox.css?v=1.0.1" rel="stylesheet" />
+    @RenderSection("head", required: false)
+</head>
+<body>
+    @RenderBody()
+    <!--全局js-->
+    <script src="/Scripts/jquery-1.10.2.min.js?v=1.0.1"></script>
+    <script src="/Scripts/bootstrap.min.js?v=1.0.1"></script>
+    <script src="/Scripts/plugins/metisMenu/jquery.metisMenu.js?v=1.0.1"></script>
+    <script src="/Scripts/plugins/slimscroll/jquery.slimscroll.min.js?v=1.0.1"></script>
+    <script src="/Scripts/plugins/layer/layer.min.js?v=1.0.1"></script>
+    <script src="/Scripts/plugins/sweetalert/sweetalert.min.js?v=1.0.1"></script>
+    <script src="/Scripts/plugins/layer/laydate/laydate.js?v=1.0.1"></script>
+    <!--自定义js-->
+
+    <script src="/Scripts/ueditor/ueditor.config.js"></script>
+    <script src="/Scripts/ueditor/ueditor.all.min.js"></script>
+    <script src="/Scripts/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+    <script src="/Scripts/hplus.js?v=1.0.1"></script>
+    <script src="/Scripts/contabs.js?v=1.0.1"></script>
+    <script src="/Scripts/content.js?v=1.0.1"></script>
+    <script src="/Scripts/plugins/pace/pace.min.js?v=1.0.1"></script>
+    <script src="/Scripts/fileinput.js?v=1.0.1"></script>
+    <script src="/Scripts/zh.js?v=1.0.1"></script>
+    <script src="/Scripts/common/common.js?v=1.0.1"></script>
+    <script src="/Scripts/jquery.fancybox.js?v=1.0.1"></script> 
+    @RenderSection("script", false)
+
+</body>
+</html>

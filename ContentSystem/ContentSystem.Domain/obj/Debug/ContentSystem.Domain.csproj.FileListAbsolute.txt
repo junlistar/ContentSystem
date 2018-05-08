@@ -1,0 +1,4 @@
+F:\work\ContentSystem\ContentSystem.Domain\bin\Debug\ContentSystem.Domain.dll
+F:\work\ContentSystem\ContentSystem.Domain\bin\Debug\ContentSystem.Domain.pdb
+F:\work\ContentSystem\ContentSystem.Domain\obj\Debug\ContentSystem.Domain.dll
+F:\work\ContentSystem\ContentSystem.Domain\obj\Debug\ContentSystem.Domain.pdb
