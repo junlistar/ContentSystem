@@ -8,8 +8,7 @@ using ContentSystem.Core.Infrastructure.DependencyManagement;
 using ContentSystem.Core.Infrastructure.TypeFinders;
 using ContentSystem.Data;
 using ContentSystem.Data.Repositories; 
-using ContentSystem.Service;
-using Exam.Admin.Infrastructure;
+using ContentSystem.Service; 
 using System.Linq;
 using System.Reflection;
 
@@ -42,17 +41,7 @@ namespace ContentSystem.Admin.Infrastructure
                 .SingleInstance();
 
             #endregion
-
-            //builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IUserInfoBusiness))).AsImplementedInterfaces();
-
-            //builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).AsImplementedInterfaces();
-
-
-            //builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IUserInfoService))).AsImplementedInterfaces();
-
-            //builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).AsImplementedInterfaces();
-
-            builder.RegisterType<WebWorkContext>().As<IWorkContext>();
+             
 
             // 注入Business及接口
             builder.RegisterAssemblyTypes(typeof(UserInfoBusiness).Assembly)

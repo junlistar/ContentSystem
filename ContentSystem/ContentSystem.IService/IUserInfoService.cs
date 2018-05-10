@@ -10,13 +10,7 @@ namespace ContentSystem.IService
     public interface IUserInfoService
     {
 
-        /// <summary>
-        /// 根据ID查找实体
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        UserInfo GetById(int id);
-
+  
         /// <summary>
         /// 添加实体
         /// </summary>
@@ -44,33 +38,10 @@ namespace ContentSystem.IService
         List<UserInfo> GetManagerList(string name, int pageNum, int pageSize, out int totalCount);
 
         /// <summary>
-        /// 判断是否名称存在
+        /// 获取所有
         /// </summary>
-        /// <param name="name"></param> 
         /// <returns></returns>
-        bool IsExistName(string name);
-
-        /// <summary>
-        /// 用户登录
-        /// </summary>
-        /// <param name="phone"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        UserInfo Login(string phone, string password);
-
-        /// <summary>
-        /// 判断是否电话存在
-        /// </summary>
-        /// <param name="phone"></param>
-        /// <returns></returns>
-        bool IsExistPhone(string phone);
-
-        /// <summary>
-        /// 用户登录
-        /// </summary>
-        /// <param name="phone">电话</param>
-        /// <returns></returns>
-        UserInfo Login(string phone);
+        List<UserInfo> GetAll();
 
         }
 }

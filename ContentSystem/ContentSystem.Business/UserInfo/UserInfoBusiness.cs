@@ -18,16 +18,7 @@ namespace ContentSystem.Business
         {
             _repoUserInfo = repoUserInfo;
         }
-        /// <summary>
-        /// 根据ID查找用户
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public UserInfo GetById(int id)
-        {
-            return this._repoUserInfo.GetById(id);
-        }
-
+        
         public UserInfo Insert(UserInfo model)
         {
             return this._repoUserInfo.Insert(model);
@@ -66,7 +57,7 @@ namespace ContentSystem.Business
             }
 
             totalCount = this._repoUserInfo.Table.Where(where).Count();
-            return this._repoUserInfo.Table.Where(where).OrderBy(p => p.UserInfoId).Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
+            return this._repoUserInfo.Table.Where(where).Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
         }
 
         /// <summary>
@@ -80,36 +71,13 @@ namespace ContentSystem.Business
         }
 
         /// <summary>
-        /// 用户登录
+        /// 获取所有
         /// </summary>
-        /// <param name="phone"></param>
-        /// <param name="password"></param>
         /// <returns></returns>
-        public UserInfo Login(string phone, string password)
-        {
-            return this._repoUserInfo.Table.Where(p => p.Phone == phone && p.Password == password).FirstOrDefault();
+        public List<UserInfo> GetAll()
+        { 
+            return this._repoUserInfo.Table.ToList();
         }
-
-        /// <summary>
-        /// 判断是否电话存在
-        /// </summary>
-        /// <param name="phone"></param>
-        /// <returns></returns>
-        public bool IsExistPhone(string phone)
-        {
-            return this._repoUserInfo.Table.Any(p => p.Phone == phone);
-        }
-
-        /// <summary>
-        /// 用户登录
-        /// </summary>
-        /// <param name="phone">电话</param>
-        /// <returns></returns>
-        public UserInfo Login(string phone)
-        {
-            return this._repoUserInfo.Table.Where(p => p.Phone == phone).FirstOrDefault();
-        }
-
     }
 }
 

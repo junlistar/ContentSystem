@@ -5,3 +5,10 @@ F:\work\ContentSystem\ContentSystem.IService\bin\Debug\ContentSystem.Domain.pdb
 F:\work\ContentSystem\ContentSystem.IService\obj\Debug\ContentSystem.IService.csprojResolveAssemblyReference.cache
 F:\work\ContentSystem\ContentSystem.IService\obj\Debug\ContentSystem.IService.dll
 F:\work\ContentSystem\ContentSystem.IService\obj\Debug\ContentSystem.IService.pdb
+F:\work\ContentSystem\ContentSystem\ContentSystem.IService\bin\Debug\ContentSystem.IService.dll
+F:\work\ContentSystem\ContentSystem\ContentSystem.IService\bin\Debug\ContentSystem.IService.pdb
+F:\work\ContentSystem\ContentSystem\ContentSystem.IService\bin\Debug\ContentSystem.Domain.dll
+F:\work\ContentSystem\ContentSystem\ContentSystem.IService\bin\Debug\ContentSystem.Domain.pdb
+F:\work\ContentSystem\ContentSystem\ContentSystem.IService\obj\Debug\ContentSystem.IService.csprojResolveAssemblyReference.cache
+F:\work\ContentSystem\ContentSystem\ContentSystem.IService\obj\Debug\ContentSystem.IService.dll
+F:\work\ContentSystem\ContentSystem\ContentSystem.IService\obj\Debug\ContentSystem.IService.pdb

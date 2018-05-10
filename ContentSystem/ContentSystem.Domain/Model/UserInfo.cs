@@ -8,17 +8,10 @@ namespace ContentSystem.Domain.Model
 {
     public class UserInfo: IAggregateRoot
     {
-        public virtual int UserInfoId { get; set; }
+        public virtual int Fans_id { get; set; }
+        public virtual string Fans_weixin_openid { get; set; }
         public virtual string NickName { get; set; }
-        public virtual string Phone { get; set; }
-        public virtual string Password { get; set; }
-        public virtual int ImageInfoId { get; set; }
-        public virtual int Gender { get; set; }
-        public virtual int SysGroupId { get; set; }
-        public virtual int GradeId { get; set; }
-        public virtual int IsEnable { get; set; } 
-        public virtual DateTime CTime { get; set; }
-        public virtual DateTime UTime { get; set; }
+        public virtual string Avatar { get; set; } 
          
 
     }
