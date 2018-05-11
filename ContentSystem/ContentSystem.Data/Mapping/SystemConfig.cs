@@ -14,7 +14,8 @@ namespace ContentSystem.Data.Mapping
     {
         public SystemConfigMap()
         {
-            this.ToTable("SystemConfig"); 
+            this.ToTable("SystemConfig");
+            this.HasKey(m => m.Title);
             this.Property(m => m.Remarks);
             this.Property(m => m.Title); 
             this.Property(m => m.Val); 

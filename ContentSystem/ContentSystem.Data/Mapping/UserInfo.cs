@@ -15,7 +15,7 @@ namespace ContentSystem.Data.Mapping
         public UserInfoMap()
         {
             this.ToTable("UserInfo");
-            //this.HasKey(m => m.UserInfoId);
+            this.HasKey(m => m.Fans_id);
             //this.Property(m => m.UserInfoId)
             //    .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(m => m.NickName);

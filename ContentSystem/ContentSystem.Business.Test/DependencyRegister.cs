@@ -21,7 +21,7 @@ namespace ContentSystem.Business.Test
         {
             #region 数据库
 
-            const string MAIN_DB = "ContentSystem";
+            const string MAIN_DB = "ContentDB";
 
             builder.Register(c => new ContentDbContext(MAIN_DB))
                     .As<IDbContext>()

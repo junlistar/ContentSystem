@@ -14,7 +14,8 @@ namespace ContentSystem.Data.Mapping
     {
         public OrderDetailMap()
         {
-            this.ToTable("OrderDetail"); 
+            this.ToTable("OrderDetail");
+            this.HasKey(m => m.Tid);
             this.Property(m => m.Num);
             this.Property(m => m.Oid); 
             this.Property(m => m.Outer_sku_id); 
