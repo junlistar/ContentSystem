@@ -76,6 +76,10 @@
       <Project>{F871762B-A1F2-407E-8C8C-87E4F3CBC334}</Project>
       <Name>ContentSystem.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ContentSystem.IService\ContentSystem.IService.csproj">
+      <Project>{55DE62FC-9E16-40A0-BEDA-5EA2D15AFE8D}</Project>
+      <Name>ContentSystem.IService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ContentSystem.Service\ContentSystem.Service.csproj">
       <Project>{2209AC3F-90C1-4709-9C93-820888519B4A}</Project>
       <Name>ContentSystem.Service</Name>

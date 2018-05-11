@@ -26,3 +26,17 @@ _ReSharper*/
 .vs/config/applicationhost.config
 /.vs/config/applicationhost.config
 
+/ContentSystem/ContentSystem.Business/obj
+/ContentSystem/ContentSystem.Business/bin
+/ContentSystem/ContentSystem.Business.Test/bin
+/ContentSystem/ContentSystem.Business.Test/obj
+/ContentSystem/ContentSystem.Core/obj
+/ContentSystem/ContentSystem.Core/bin
+/ContentSystem/ContentSystem.Data/obj
+/ContentSystem/ContentSystem.Data/bin
+/ContentSystem/ContentSystem.Domain/obj
+/ContentSystem/ContentSystem.Domain/bin
+/ContentSystem/ContentSystem.IService/bin
+/ContentSystem/ContentSystem.IService/obj
+/ContentSystem/ContentSystem.Service/bin
+/ContentSystem/ContentSystem.Service/obj
