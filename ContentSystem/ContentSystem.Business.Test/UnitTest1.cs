@@ -19,9 +19,7 @@ namespace ContentSystem.Business.Test
 
             UserInfo userInfo = new UserInfo();
             userInfo.NickName = "张大胆" + rd.Next(99999);
-            userInfo.Gender = rd.Next(100) > 50 ? 1 : 0;
-            userInfo.IsEnable = 1;
-            userInfo.CTime = DateTime.Now;
+             
 
             var addResult = _userInfo.Insert(userInfo);
 

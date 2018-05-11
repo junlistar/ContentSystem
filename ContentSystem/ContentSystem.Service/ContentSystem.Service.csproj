@@ -43,6 +43,9 @@
     <Compile Include="GrabDataService.cs" />
     <Compile Include="HttpHelp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OrderDetailService.cs" />
+    <Compile Include="OrderService.cs" />
+    <Compile Include="SystemConfigService.cs" />
     <Compile Include="UserInfoService.cs" />
   </ItemGroup>
   <ItemGroup>

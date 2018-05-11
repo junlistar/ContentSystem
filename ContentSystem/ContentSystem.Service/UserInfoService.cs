@@ -20,12 +20,7 @@ namespace ContentSystem.Service
         {
             _userBiz = userBiz;
         }
-
-        public UserInfo GetById(int Id)
-        {
-            return _userBiz.GetById(Id);
-        }
-
+         
         public UserInfo Insert(UserInfo model)
         {
             return _userBiz.Insert(model);
@@ -60,42 +55,12 @@ namespace ContentSystem.Service
         }
 
         /// <summary>
-        /// 判断是否名称存在
+        /// 获取所有
         /// </summary>
-        /// <param name="name"></param> 
         /// <returns></returns>
-        public bool IsExistName(string name)
+        public List<UserInfo> GetAll()
         {
-            return this._userBiz.IsExistName(name);
-        }
-        /// <summary>
-        /// 用户登录
-        /// </summary>
-        /// <param name="phone"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public UserInfo Login(string phone, string password)
-        {
-            return this._userBiz.Login(phone, password);
-        }
-
-        /// <summary>
-        /// 判断是否名称存在
-        /// </summary>
-        /// <param name="name"></param> 
-        /// <returns></returns>
-        public bool IsExistPhone(string phone)
-        {
-            return this._userBiz.IsExistPhone(phone);
-        }
-
-        /// <summary>
-        /// 用户登录
-        /// </summary>
-        /// <param name="phone">电话</param>
-        /// <returns></returns>
-        public UserInfo Login(string phone) {
-            return this._userBiz.Login(phone);
+            return _userBiz.GetAll();
         }
     }
 }
