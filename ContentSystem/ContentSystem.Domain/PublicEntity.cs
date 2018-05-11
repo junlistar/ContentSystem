@@ -84,12 +84,22 @@ namespace ContentSystem.Domain
             /// 自提模型
             /// </summary>
             public TradeFetch fetch_detail { get; set; }
-
+            /// <summary>
+            /// 付款时间
+            /// </summary>
+            public string pay_time { get; set; }
             /// <summary>
             /// 订单详情
             /// </summary>
-             public List<Orders> orders { get; set; }
+            public List<Orders> orders { get; set; }
+            /// <summary>
+            /// 粉丝
+            /// </summary>
+            public FansInfo fans_info { get; set; }
         }
+        /// <summary>
+        /// 自提模型
+        /// </summary>
         public class TradeFetch {
             /// <summary>
             /// 领取人
@@ -174,10 +184,7 @@ namespace ContentSystem.Domain
             /// 总金额
             /// </summary>
             public decimal total_fee { get; set; }
-            /// <summary>
-            /// 付款时间
-            /// </summary>
-            public DateTime pay_time { get; set; }
+            
             /// <summary>
             /// 数量
             /// </summary>
@@ -185,7 +192,7 @@ namespace ContentSystem.Domain
             /// <summary>
             /// 买家自定义附加留言
             /// </summary>
-            public List<buyer_messages> messages { get; set; }
+            public List<buyer_messages> buyer_messages { get; set; }
         }
         /// <summary>
         /// 买家自定义附加留言
@@ -199,6 +206,12 @@ namespace ContentSystem.Domain
             /// 内容
             /// </summary>
             public string content { get; set; }
+        }
+        /// <summary>
+        /// 粉丝模型
+        /// </summary>
+        public class FansInfo {
+            public string fans_weixin_openid { get; set; }
         }
     }
 

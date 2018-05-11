@@ -13,7 +13,7 @@ namespace ContentSystem.IService
         /// </summary>
         /// <param name="token">token</param>
         /// <returns></returns>
-        string GetYzOrder(string token);
+        void GetYzOrder(string token);
         /// <summary>
         /// 获取有赞返回的token
         /// </summary>

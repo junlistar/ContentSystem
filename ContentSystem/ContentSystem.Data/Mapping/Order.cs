@@ -25,6 +25,7 @@ namespace ContentSystem.Data.Mapping
             this.Property(m => m.Payment);
             this.Property(m => m.Pic_thumb_path);
             this.Property(m => m.Receiver_address);
+            this.Property(m => m.Pay_time);
             this.Property(m => m.Receiver_city);
             this.Property(m => m.Receiver_district);
             this.Property(m => m.Receiver_mobile);
