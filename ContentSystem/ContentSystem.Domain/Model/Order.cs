@@ -35,7 +35,7 @@ namespace ContentSystem.Domain.Model
         public virtual string Shop_city { get; set; }
         public virtual string Shop_district { get; set; }
         public virtual string Shop_address { get; set; } 
-         
+          
 
     }
 }

@@ -20,7 +20,7 @@ namespace ContentSystem.Service
         {
             _userBiz = userBiz;
         }
-         
+
         public Order Insert(Order model)
         {
             return _userBiz.Insert(model);
@@ -49,9 +49,19 @@ namespace ContentSystem.Service
         /// 管理后台用户列表
         /// </summary> 
         /// <returns></returns>
-        public List<Order> GetManagerList(string name, int pageNum, int pageSize, out int totalCount)
+        public List<Order> GetManagerList(string orderNo, string mobile, string productname, string sku, int pageNum, int pageSize, out int totalCount)
         {
-            return _userBiz.GetManagerList(name, pageNum, pageSize, out totalCount);
+            return _userBiz.GetManagerList(orderNo, mobile, productname, sku, pageNum, pageSize, out totalCount);
+        }
+
+        /// <summary>
+        /// 根据订单编号获取订单和详情列表
+        /// </summary>
+        /// <param name="tid"></param>
+        /// <returns></returns>
+        public OrderDetailReturnModel GetOrderDetail(string tid)
+        {
+            return _userBiz.GetOrderDetail(tid);
         }
 
         /// <summary>

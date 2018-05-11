@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "订单详情";
+}
+@model ContentSystem.Domain.Model.OrderDetailReturnModel
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="wrapper wrapper-content animated fadeInUp">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="m-b-md">
+                                    <a href="javascript:history.go(-1);" class="btn btn-info pull-right">关闭</a>
+                                </div>
+                                <dl class="dl-horizontal">
+                                    <dt>状态：</dt>
+                                    <dd>
+                                        @Model.Order.Tid
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <dl class="dl-horizontal">
+                                    <dt>订单编号：</dt>
+                                    <dd>@Model.Order.Tid</dd>
+                                    <dt>订单名称：</dt>
+                                    <dd>@Model.Order.Title</dd>
+                                    <dt>总金额：</dt>
+                                    <dd>@Model.Order.Total_fee</dd>
+                                    <dt>下单日期：</dt>
+                                    <dd>@Model.Order.Created</dd>
+                                    <dt>支付金额：</dt>
+                                    <dd>@Model.Order.Payment</dd>
+                                    <dt>支付日期：</dt>
+                                    <dd>@Model.Order.Pay_time</dd>
+                                    <dt>取货方式：</dt>
+                                    <dd>@Model.Order.Shipping_type</dd>
+                                    <dt>取货方式：</dt>
+                                    <dd>@Model.Order.Shipping_type</dd>
+                                    <dt>收货人：</dt>
+                                    <dd>@Model.Order.Fetcher_name</dd>
+                                    <dt>手机号：</dt>
+                                    <dd>@Model.Order.Receiver_mobile</dd>
+                                    <dt>地址：</dt>
+                                    <dd>@Model.Order.Receiver_address</dd>
+                                </dl>
+                            </div>
+                            <div class="col-sm-7" id="cluster_info">
+                                <dl class="dl-horizontal" style="word-break:break-all;">
+                                    <dt>下单人：</dt>
+                                    <dd>@Model.Order.Fans_weixin_openid</dd>
+                                    <dt>头像：</dt>
+                                    <dd></dd>
+                                    <dt>备注：</dt>
+                                    <dd>
+                                        @Model.Order.Remarks
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="row m-t-sm">
+                            <div class="col-sm-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>子订单编号</th>
+                                            <th>商品名称</th>
+                                            <th>商品SKU</th>
+                                            <th>商品Id</th>
+                                            <th>单价</th>
+                                            <th>数量</th>
+                                            <th>总金额</th>
+                                            <th>微信号</th>
+                                            <th>忌口食物</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.DetailList != null && Model.DetailList.Count > 0)
+                                        {
+                                            foreach (var item in Model.DetailList)
+                                            {
+                                                <tr>
+                                                    <td>@item.Oid</td>
+                                                    <td>@item.Title</td>
+                                                    <td>@item.sku_id</td>
+                                                    <td>@item.item_id</td>
+                                                    <td>@item.Price</td>
+                                                    <td>@item.Num</td>
+                                                    <td>@item.Total_fee</td>
+                                                    <td>@item.Wx_no</td>
+                                                    <td>@item.Taboo</td> 
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

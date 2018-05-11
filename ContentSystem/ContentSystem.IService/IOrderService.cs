@@ -10,7 +10,7 @@ namespace ContentSystem.IService
     public interface IOrderService
     {
 
-  
+
         /// <summary>
         /// 添加实体
         /// </summary>
@@ -35,7 +35,14 @@ namespace ContentSystem.IService
         /// 管理后台用户列表
         /// </summary> 
         /// <returns></returns>
-        List<Order> GetManagerList(string name, int pageNum, int pageSize, out int totalCount);
+        List<Order> GetManagerList(string orderNo, string mobile, string productname, string sku, int pageNum, int pageSize, out int totalCount);
+
+        /// <summary>
+        /// 根据订单编号获取订单和详情列表
+        /// </summary>
+        /// <param name="tid"></param>
+        /// <returns></returns>
+        OrderDetailReturnModel GetOrderDetail(string tid);
 
         /// <summary>
         /// 获取所有
@@ -43,5 +50,5 @@ namespace ContentSystem.IService
         /// <returns></returns>
         List<Order> GetAll();
 
-        }
+    }
 }

@@ -28,7 +28,7 @@ namespace ContentSystem.Data.Mapping
             this.Property(m => m.Total_fee);
             this.Property(m => m.Wx_no);
             this.Property(m => m.Taboo);
-             
+
         }
     }
 }

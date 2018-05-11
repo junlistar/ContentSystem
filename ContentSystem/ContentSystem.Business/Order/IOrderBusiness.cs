@@ -26,14 +26,20 @@ namespace ContentSystem.Business
         /// <param name="model"></param>
         /// <returns></returns>
         void Delete(Order model);
-        
+
         /// <summary>
         /// 管理后台用户列表
         /// </summary> 
         /// <returns></returns>
-        List<Order> GetManagerList(string name, int pageNum, int pageSize, out int totalCount);
-         
-         
+        List<Order> GetManagerList(string orderNo, string mobile, string productname, string sku, int pageNum, int pageSize, out int totalCount);
+
+        /// <summary>
+        /// 根据订单编号获取订单和详情列表
+        /// </summary>
+        /// <param name="tid"></param>
+        /// <returns></returns>
+        OrderDetailReturnModel GetOrderDetail(string tid);
+
         /// <summary>
         /// 获取所有
         /// </summary>

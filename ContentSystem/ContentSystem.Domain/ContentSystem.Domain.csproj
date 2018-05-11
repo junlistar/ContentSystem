@@ -45,6 +45,7 @@
     <Compile Include="Model\OrderDetail.cs" />
     <Compile Include="Model\Order.cs" />
     <Compile Include="Model\SystemConfig.cs" />
+    <Compile Include="Model\SysAccount.cs" />
     <Compile Include="Model\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicEntity.cs" />

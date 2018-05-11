@@ -21,7 +21,15 @@ namespace ContentSystem.Domain.Model
         public virtual int Num { get; set; }
         public virtual string Wx_no { get; set; }
         public virtual string Taboo { get; set; }
+         
 
+    }
+
+
+    public class OrderDetailReturnModel
+    {
+         public Order Order { get; set; }
+         public List<OrderDetail> DetailList { get; set; }
 
     }
 }
