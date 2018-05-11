@@ -1,4 +1,6 @@
-﻿using ContentSystem.Core.Utils;
+﻿using ContentSystem.Core.Data;
+using ContentSystem.Core.Utils;
+using ContentSystem.Domain.Model;
 using ContentSystem.IService;
 using ContentSystem.Service;
 using System;
@@ -13,7 +15,12 @@ namespace ContentSystem.Service
 {
     public class GrabDataService : IGrabDataService
     {
+        private IRepository<SystemConfig> _repoSystemConfig;
 
+        public GrabDataService(IRepository<SystemConfig> repoSystemConfig)
+        {
+            _repoSystemConfig = repoSystemConfig;
+        }
         //获取签名url
         string yzTokenUrl = "https://open.youzan.com/oauth/token";
         string yzOrderUrl = "https://open.youzan.com/api/oauthentry/youzan.trades.sold/3.0.0/get";
@@ -76,7 +83,12 @@ namespace ContentSystem.Service
         /// <returns></returns>
         public string GetYzToken()
         {
+            //先获取数据库中的数据
+            var model = _repoSystemConfig.Table.Where(n => n.Title == "Token").FirstOrDefault();
+            if (model==null)
+            {
 
+            }
             var hb = new Hashtable();
             hb.Add("client_id", "5b0a461d5285038e73");
             hb.Add("client_secret", "2f599e28788df467acfa9f03e5f0815f");

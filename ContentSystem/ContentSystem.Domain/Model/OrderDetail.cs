@@ -11,6 +11,9 @@ namespace ContentSystem.Domain.Model
         public virtual string Tid { get; set; }
         public virtual int Oid { get; set; }
         public virtual string Outer_sku_id { get; set; } 
+        public virtual string Outer_item_id { get; set; }
+        public virtual int sku_id { get; set; }
+        public virtual int item_id { get; set; }
         public virtual string Title { get; set; } 
         public virtual decimal Price { get; set; } 
         public virtual decimal Total_fee { get; set; } 

@@ -18,7 +18,10 @@ namespace ContentSystem.Data.Mapping
             this.Property(m => m.Num);
             this.Property(m => m.Oid); 
             this.Property(m => m.Outer_sku_id); 
-            this.Property(m => m.Pay_time); 
+            this.Property(m => m.Pay_time);
+            this.Property(m => m.Outer_item_id);
+            this.Property(m => m.sku_id);
+            this.Property(m => m.item_id);
             this.Property(m => m.Price); 
             this.Property(m => m.Tid); 
             this.Property(m => m.Title); 

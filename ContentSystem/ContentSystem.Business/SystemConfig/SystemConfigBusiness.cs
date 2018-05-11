@@ -69,6 +69,7 @@ namespace ContentSystem.Business
         { 
             return this._repoSystemConfig.Table.ToList();
         }
+        
     }
 }
 
