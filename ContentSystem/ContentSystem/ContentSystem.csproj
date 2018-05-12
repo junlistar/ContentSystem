@@ -181,6 +181,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\DeliveryController.cs" />
     <Compile Include="Controllers\SysAccountController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
@@ -303,6 +304,7 @@
     <Content Include="Views\SysAccount\List.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Home\Console_User.cshtml" />
+    <Content Include="Views\Delivery\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

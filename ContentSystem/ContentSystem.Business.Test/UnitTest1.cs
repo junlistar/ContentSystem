@@ -11,6 +11,7 @@ namespace ContentSystem.Business.Test
     {
         private readonly IUserInfoBusiness _userInfo = EngineContext.Current.Resolve<IUserInfoBusiness>();
         private readonly IGrabDataService _grabDataService = EngineContext.Current.Resolve<IGrabDataService>();
+        private readonly ICalendarInfoService _calendarService = EngineContext.Current.Resolve<ICalendarInfoService>();
         [TestMethod]
         public void AddUserTest()
         {
@@ -30,6 +31,16 @@ namespace ContentSystem.Business.Test
         {
             string token = _grabDataService.GetYzToken();
             _grabDataService.GetYzOrder(token);
+
+        }
+
+        /// <summary>
+        /// 获取一年的工作日
+        /// </summary>
+        [TestMethod]
+        public void Get365Jiari()
+        {
+            _calendarService.InitDays("2018");
 
         }
     }

@@ -31,6 +31,8 @@ namespace ContentSystem.IService
         /// <returns></returns>
         void Delete(Order model);
 
+        List<Order> GetDeliveryList(string starttime, string endtime, int pageNum, int pageSize, out int totalCount);
+
         /// <summary>
         /// 管理后台用户列表
         /// </summary> 

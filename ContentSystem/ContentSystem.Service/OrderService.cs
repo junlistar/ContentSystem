@@ -45,6 +45,11 @@ namespace ContentSystem.Service
             this._userBiz.Delete(model);
         }
 
+        public List<Order> GetDeliveryList(string starttime, string endtime, int pageNum, int pageSize, out int totalCount)
+        {
+            return _userBiz.GetDeliveryList(starttime, endtime,pageNum, pageSize, out totalCount);
+        }
+
         /// <summary>
         /// 管理后台用户列表
         /// </summary> 

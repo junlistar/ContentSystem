@@ -49,6 +49,8 @@
     <Compile Include="Order\OrderBusiness.cs" />
     <Compile Include="SysAccount\ISysAccountBusiness.cs" />
     <Compile Include="SysAccount\SysAccountBusiness.cs" />
+    <Compile Include="CalendarInfo\ICalendarInfoBusiness.cs" />
+    <Compile Include="CalendarInfo\CalendarInfoBusiness.cs" />
     <Compile Include="UserInfo\IUserInfoBusiness.cs" />
     <Compile Include="UserInfo\UserInfoBusiness.cs" />
   </ItemGroup>

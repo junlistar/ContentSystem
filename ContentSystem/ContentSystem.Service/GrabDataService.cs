@@ -30,7 +30,7 @@ namespace ContentSystem.Service
             _repoOrder = repoOrder;
             _repoUserInfo = repoUserInfo;
             _repoOrderDetail = repoOrderDetail;
-        }
+        } 
         //获取签名url
         string yzTokenUrl = "https://open.youzan.com/oauth/token";
         string yzOrderUrl = "https://open.youzan.com/api/oauthentry/youzan.trades.sold/3.0.0/get";
@@ -262,7 +262,7 @@ namespace ContentSystem.Service
             orderEntity.Status_str = item.status_str;
             orderEntity.Tid = item.tid;
             orderEntity.Title = item.title;
-            orderEntity.Pay_time = item.pay_time;
+            orderEntity.Pay_time = item.pay_time =="" ? DateTime.MinValue : DateTime.Parse(item.pay_time);
             orderEntity.Total_fee = item.total_fee;
             return orderEntity;
         }

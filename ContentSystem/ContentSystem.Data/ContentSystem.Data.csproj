@@ -63,6 +63,7 @@
     <Compile Include="Mapping\OrderDetail.cs" />
     <Compile Include="Mapping\SystemConfig.cs" />
     <Compile Include="Mapping\SysAccount.cs" />
+    <Compile Include="Mapping\CalendarInfo.cs" />
     <Compile Include="Mapping\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EfRepository.cs" />

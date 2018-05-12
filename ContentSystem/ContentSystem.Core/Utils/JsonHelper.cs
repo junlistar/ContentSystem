@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace ContentSystem.Core.Utils
 {
@@ -44,6 +45,18 @@ namespace ContentSystem.Core.Utils
                 DataContractJsonSerializer dcj = new DataContractJsonSerializer(typeof(T));
                 return (T)dcj.ReadObject(ms);
             }
+        }
+
+        public static List<T> JSONStringToList<T>( string JsonStr)
+
+        {
+
+            JavaScriptSerializer Serializer = new JavaScriptSerializer();
+
+            List<T> objs = Serializer.Deserialize<List<T>>(JsonStr);
+
+            return objs;
+
         }
     }
 

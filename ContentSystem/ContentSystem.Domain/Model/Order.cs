@@ -12,7 +12,7 @@ namespace ContentSystem.Domain.Model
         public virtual string Tid { get; set; }
         public virtual decimal Total_fee { get; set; }
         public virtual string Pic_thumb_path { get; set; }
-        public virtual string Pay_time { get; set; }
+        public virtual DateTime Pay_time { get; set; }
         public virtual string Status_str { get; set; }
         public virtual DateTime Created { get; set; }
         public virtual string Fans_weixin_openid { get; set; }

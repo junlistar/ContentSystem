@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.Title = "订单列表";
+}
+@model ContentSystem.Models.OrderVM
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row" style="padding:10px 10px;">
+                        <form action="/Delivery/List" method="get">
+                             
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    发货区间：
+                                    <input placeholder="开始日期" class="form-control layer-date" id="startTime" name="QueryStartTime" style="vertical-align:middle;width:105px;" value="@(Model.QueryStartTime?? DateTime.Now.ToString("yyyy-MM-dd") )">
+                                    <input placeholder="结束日期" class="form-control layer-date" id="endTime" name="QueryEndTime" style="vertical-align:middle;width:105px;" value="@(Model.QueryEndTime??DateTime.Now.ToString("yyyy-MM-dd"))">
+                                </div>
+                                <button type="submit" class="btn btn-info">搜索</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">订单编号</th>
+                                    <th class="text-center">标题</th>
+                                    <th class="text-center">总金额</th>
+                                    <th class="text-center">实付金额</th>
+                                    <th class="text-center">图片</th>
+                                    <th class="text-center">手机号</th>
+                                    <th class="text-center">订单状态</th>
+                                    <th class="text-center">创建时间</th>
+                                    <th class="text-center">支付时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Paging.Items != null && Model.Paging.Items.Count > 0)
+                                {
+                                    foreach (var item in Model.Paging.Items)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@item.Tid</td>
+                                            <td class="text-center">@item.Title</td>
+                                            <td class="text-center">@item.Total_fee</td>
+                                            <td class="text-center">@item.Payment</td>
+                                            <td class="text-center td-img">
+                                                @if (!string.IsNullOrEmpty(item.Pic_thumb_path))
+                                                {
+                                                    <img src="@item.Pic_thumb_path" class="fancy" href="@item.Pic_thumb_path" data-fancybox-group="gallery" onerror="this.src = '/images/404image.png'">
+                                                }
+                                                else
+                                                {
+                                                    <img src="/images/404image.png">
+                                                }
+                                            </td>
+
+                                            <td class="text-center">@item.Receiver_mobile</td>
+                                            <td class="text-center">@item.Status_str</td>
+                                            <td class="text-center">@item.Created</td>
+                                            <td class="text-center">@item.Pay_time</td>
+                                            <td>
+                                                <a href="/Order/Detail?tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查询详情</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="btn-group">
+                                <a href="/Delivery/List" class="btn btn-info" style="margin-left:10px;" data-refresh="0"><i class="fa fa-refresh padding-right-4"></i>&nbsp;刷新</a>
+                            </div>
+                            @Html.Raw(Model.Paging.Text)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section script{
+    <script type="text/javascript">
+
+        //日期范围限制
+        var start = {
+            elem: '#startTime',
+            format: 'YYYY-MM-DD',
+            //min: laydate.now(), //设定最小日期为当前日期
+            max: '2099-06-16 23:59:59', //最大日期
+            istime: true,
+            istoday: false,
+            choose: function (datas) {
+                end.min = datas; //开始日选好后，重置结束日的最小日期
+                end.start = datas //将结束日的初始值设定为开始日
+            }
+        };
+        var end = {
+            elem: '#endTime',
+            format: 'YYYY-MM-DD',
+            //min: laydate.now(),
+            max: '2099-06-16 23:59:59',
+            istime: true,
+            istoday: false,
+            choose: function (datas) {
+                start.max = datas; //结束日选好后，重置开始日的最大日期
+            }
+        };
+        laydate(start);
+        laydate(end);
+    </script>
+}

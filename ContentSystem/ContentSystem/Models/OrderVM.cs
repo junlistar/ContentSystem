@@ -35,6 +35,8 @@ namespace ContentSystem.Models
         public string QueryMobile { get; set; }
         public string QueryProductName { get; set; }
         public string QuerySku { get; set; }
+        public string QueryStartTime { get; set; }
+        public string QueryEndTime { get; set; }
     }
      
 }

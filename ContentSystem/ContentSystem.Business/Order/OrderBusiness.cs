@@ -12,14 +12,17 @@ namespace ContentSystem.Business
     {
         private IRepository<Order> _repoOrder;
         private IRepository<OrderDetail> _repoOrderDetail;
+        private IRepository<CalendarInfo> _repoCalendarInfo;
 
         public OrderBusiness(
           IRepository<Order> repoOrder,
-          IRepository<OrderDetail> repoOrderDetail
+          IRepository<OrderDetail> repoOrderDetail,
+          IRepository<CalendarInfo> repoCalendarInfol
           )
         {
             _repoOrder = repoOrder;
             _repoOrderDetail = repoOrderDetail;
+            _repoCalendarInfo = repoCalendarInfol;
         }
 
         public Order Insert(Order model)
@@ -45,6 +48,84 @@ namespace ContentSystem.Business
         {
             this._repoOrder.Delete(model);
         }
+
+        /// <summary>
+        /// 获取后续第N个工作日期
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        private DateTime GetNextWorkDay(DateTime t1, int count, List<CalendarInfo> clist)
+        {
+
+            var _temp = t1;
+
+            while (count > 0)
+            {
+                _temp = _temp.AddDays(-1);
+
+                var daystr = _temp.ToString("yyyyMMdd");
+
+                var nday = clist.Where(p => p.Day == daystr).FirstOrDefault();
+
+                if (nday != null)
+                {
+                    if (nday.Status == 0)
+                    {
+                        //如果是工作日，计算+1
+                        count--;
+                    }
+                }
+                else
+                {
+                    //如果没有查到，默认为工作日
+                    count--;
+
+                }
+            }
+
+            //返回计算后的日期
+            return _temp;
+
+        }
+
+        public List<Order> GetDeliveryList(string starttime, string endtime, int pageNum, int pageSize, out int totalCount)
+        {
+            var calendarlist = _repoCalendarInfo.Table.ToList();
+
+            var where = PredicateBuilder.True<Order>();
+
+            where = where.And(m => m.Pay_time != DateTime.MinValue);
+
+            // orderNo
+            if (!string.IsNullOrEmpty(starttime))
+            {
+                var t1 = DateTime.Parse(starttime + " 00:00:00");
+
+                var maxDate = GetNextWorkDay(t1, 1, calendarlist);
+                maxDate = maxDate.AddDays(1).AddSeconds(-1);
+
+                var minDate = GetNextWorkDay(t1, 22, calendarlist);
+                where = where.And(m => m.Pay_time >= minDate && m.Pay_time <= maxDate);
+
+            }
+            if (!string.IsNullOrEmpty(endtime))
+            {
+                var t1 = DateTime.Parse(endtime + " 00:00:00");
+
+                var maxDate = GetNextWorkDay(t1, 1, calendarlist);
+                maxDate = maxDate.AddDays(1).AddSeconds(-1);
+
+                var minDate = GetNextWorkDay(t1, 22, calendarlist);
+                where = where.And(m => m.Pay_time >= minDate && m.Pay_time <= maxDate);
+
+                //使用这种操作表数据字段的函数调用，会提示函数找不到，因此发现操作变量对象
+                // where = where.And(m => GetNextWorkDay(m.Pay_time, 1, calendarlist) <= t1 && t1 <= GetNextWorkDay(m.Pay_time, 22, calendarlist));
+            }
+
+            totalCount = this._repoOrder.Table.Where(where).Count();
+            return this._repoOrder.Table.Where(where).OrderByDescending(p => p.Created).Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
+        }
+
         /// <summary>
         /// 管理后台用户列表
         /// </summary> 
@@ -103,7 +184,7 @@ namespace ContentSystem.Business
                 {
                     returnModel.Order = model;
                     returnModel.DetailList = this._repoOrderDetail.Table.Where(t => t.Tid == tid).ToList();
- 
+
                 }
             }
             return returnModel;
@@ -117,7 +198,7 @@ namespace ContentSystem.Business
         public List<Order> GetAll()
         {
             return this._repoOrder.Table.ToList();
-        } 
+        }
     }
 }
 

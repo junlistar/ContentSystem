@@ -57,7 +57,9 @@
                                     <dt>下单人：</dt>
                                     <dd>@userInfo.NickName </dd>
                                     <dt>头像：</dt>
-                                    <dd>@userInfo.Avatar</dd>
+                                    <dd class="td-img">
+                                        <img src="@userInfo.Avatar" class="fancy" href="@userInfo.Avatar" data-fancybox-group="gallery" onerror="this.src = '/images/404image.png'">
+                                    @*@userInfo.Avatar*@</dd>
                                     <dt>备注：</dt>
                                     <dd>
                                         @Model.Order.Remarks
