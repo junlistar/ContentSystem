@@ -6,25 +6,19 @@ using System.Web.Mvc;
 
 namespace ContentSystem.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult About()
+      
+
+        public ActionResult Console()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+           
+            return View("Console_User");
         }
     }
 }

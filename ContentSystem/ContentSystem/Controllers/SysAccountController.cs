@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace ContentSystem.Controllers
 {
-    public class SysAccountController : Controller
+    public class SysAccountController : BaseController
     {
          
         ISysAccountService _accoutService;
@@ -67,14 +67,14 @@ namespace ContentSystem.Controllers
                 {
                     var entity = _accoutService.GetById(model.SysAccountId);
                     //修改  
-                    entity.Name = model.Name;
+                    entity.Name = model.Name; 
                     _accoutService.Update(entity);
                 }
                 else
                 { 
                     //添加 
                     model.CreateTime = DateTime.Now;
-
+                    model.Password = MD5Util.GetMD5_32(model.Password);
                     _accoutService.Insert(model);
                 }
                 return Json(new { Status = Successed.Ok }, JsonRequestBehavior.AllowGet);

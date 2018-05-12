@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace ContentSystem.Controllers
 {
-    public class UserInfoController : Controller
+    public class UserInfoController : BaseController
     {
 
         IOrderService _orderService;

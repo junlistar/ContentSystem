@@ -28,7 +28,13 @@
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
-                     
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">登录密码</label>
+                            <div class="col-sm-4">
+                                <input type="password" name="passWord" id="passWord" class="form-control" placeholder="请输入密码" value="@(Model.SysAccount.Password ?? "")">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-2">
                                 <button id="btnSave" class="btn btn-primary" type="button">保存内容</button>
@@ -46,7 +52,8 @@
         $(function () {
             $('#btnSave').click(function () {
                 var id = $('#id'),
-                    account = $('#account'), 
+                    account = $('#account'),
+                    passWord = $('#passWord'),
                     name = $('#name');
        
                 if (account.val() == null || account.val() == '') {
@@ -61,6 +68,7 @@
                 var dataArr = {
                     SysAccountId: id.val(), 
                     Name: name.val(),
+                    Password: passWord.val(),
                     Account: account.val(),
                 };
                 window.parent.showModal();

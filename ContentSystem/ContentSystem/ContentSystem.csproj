@@ -179,6 +179,7 @@
     <Compile Include="Common\SessionHelper.cs" />
     <Compile Include="Common\Versions.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SysAccountController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
@@ -257,6 +258,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\ViewJs\Login\login.js" />
     <Content Include="Scripts\ViewJs\User\UserEdit.js" />
     <Content Include="Scripts\zh.js" />
     <Content Include="Scripts\_references.js" />
@@ -299,6 +301,8 @@
     <Content Include="Views\UserInfo\List.cshtml" />
     <Content Include="Views\SysAccount\Edit.cshtml" />
     <Content Include="Views\SysAccount\List.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Home\Console_User.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
