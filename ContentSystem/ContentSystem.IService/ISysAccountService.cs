@@ -7,41 +7,42 @@ using System.Threading.Tasks;
 
 namespace ContentSystem.IService
 {
-    public interface IUserInfoService
+    public interface ISysAccountService
     {
 
-  
+        SysAccount GetById(int id);
         /// <summary>
         /// 添加实体
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        UserInfo Insert(UserInfo model);
+        SysAccount Insert(SysAccount model);
         /// <summary>
         /// 修改实体
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        void Update(UserInfo model);
+        void Update(SysAccount model);
 
         /// <summary>
         /// 删除实体
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        void Delete(UserInfo model);
+        void Delete(SysAccount model);
 
         /// <summary>
         /// 管理后台用户列表
         /// </summary> 
         /// <returns></returns>
-        List<UserInfo> GetManagerList(string fansid, string openid, string name, int pageNum, int pageSize, out int totalCount);
+        List<SysAccount> GetManagerList(string fansid, string openid, string name, int pageNum, int pageSize, out int totalCount);
 
         /// <summary>
         /// 获取所有
         /// </summary>
         /// <returns></returns>
-        List<UserInfo> GetAll();
+        List<SysAccount> GetAll();
 
-        }
+        SysAccount Login(string accout, string password);
+    }
 }

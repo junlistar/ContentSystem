@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ContentSystem.Models
 {
-    public class OrderVM
+    public class UserInfoVM
     {
         /// <summary>
         /// 编号
@@ -14,27 +14,18 @@ namespace ContentSystem.Models
         /// <summary>
         /// 实体信息
         /// </summary>
-        public Order Order { get; set; }
-
-        public OrderDetail OrderDetail { get; set; }
-
-        /// <summary>
-        /// 实体列表
-        /// </summary>
-        public List<Order> OrderList { get; set; }
-        public List<OrderDetail> DetailList { get; set; }
+        public UserInfo UserInfo { get; set; }
+          
         public List<UserInfo> UserInfoList { get; set; }
 
         /// <summary>
         /// 用户分页
         /// </summary>
-        public Paging<Order> Paging { get; set; }
+        public Paging<UserInfo> Paging { get; set; }
 
         public string QueryName { get; set; }
-        public string QueryOrderNo { get; set; }
-        public string QueryMobile { get; set; }
-        public string QueryProductName { get; set; }
-        public string QuerySku { get; set; }
+        public string QueryFansId { get; set; }
+        public string QueryOpenId { get; set; } 
     }
      
 }

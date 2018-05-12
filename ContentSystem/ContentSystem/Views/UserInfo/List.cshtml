@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "用户列表";
+}
+@model ContentSystem.Models.UserInfoVM
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row" style="padding:10px 10px;">
+                        <form action="/UserInfo/List" method="get">
+                            <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <label style="width:100px;">    粉丝id：</label>
+
+                                    <input type="text" name="QueryFansId" class="form-control inline" style="width:70%;" placeholder="请输入查询fansId" value="@(Model.QueryFansId ?? "")">
+                                </div>
+                            </div>
+                            <div class="col-sm-12" style="height:20px;"></div>
+                            <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <label style="width:100px;">   微信OpenId：</label>
+
+                                    <input type="text" name="QueryOpenId" class="form-control inline" style="width:70%;" placeholder="请输入查询微信OpenId" value="@(Model.QueryOpenId ?? "")">
+                                </div>
+                            </div>
+                            <div class="col-sm-12" style="height:20px;"></div>
+                            <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <label style="width:100px;"> 昵称：</label>
+                                    <input type="text" name="QueryName" class="form-control inline" style="width:70%;" placeholder="请输入查询用户昵称" value="@(Model.QueryName ?? "")">
+                                </div>
+                                <button type="submit" class="btn btn-info">搜索</button>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">粉丝id</th>
+                                    <th class="text-center">微信OpenId</th>
+                                    <th class="text-center">昵称</th>
+                                    <th class="text-center">图片</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Paging.Items != null && Model.Paging.Items.Count > 0)
+                                {
+                                    foreach (var item in Model.Paging.Items)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@item.Fans_id</td>
+                                            <td class="text-center">@item.Fans_weixin_openid</td>
+                                            <td class="text-center">@item.NickName</td>
+                                            <td class="text-center td-img">
+                                                @if (!string.IsNullOrEmpty(item.Avatar))
+                                                {
+                                                    <img src="@item.Avatar" class="fancy" href="@item.Avatar" data-fancybox-group="gallery" onerror="this.src = '/images/404image.png'">
+                                                }
+                                                else
+                                                {
+                                                    <img src="/images/404image.png">
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="btn-group">
+                                <a href="/UserInfo/List" class="btn btn-info" style="margin-left:10px;" data-refresh="0"><i class="fa fa-refresh padding-right-4"></i>&nbsp;刷新</a>
+                            </div>
+                            @Html.Raw(Model.Paging.Text)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

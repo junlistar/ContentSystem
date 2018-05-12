@@ -10,14 +10,14 @@ using System.Web.Mvc;
 
 namespace ContentSystem.Controllers
 {
-    public class OrderController : Controller
+    public class UserInfoController : Controller
     {
 
         IOrderService _orderService;
         IUserInfoService _userService;
 
 
-        public OrderController(IOrderService orderService,
+        public UserInfoController(IOrderService orderService,
              IUserInfoService userService) {
             _orderService = orderService;
             _userService = userService;
@@ -27,13 +27,13 @@ namespace ContentSystem.Controllers
         /// 列表
         /// </summary> 
         /// <returns></returns>
-        public ActionResult List(OrderVM vm, int pn = 1)
+        public ActionResult List(UserInfoVM vm, int pn = 1)
         {
             int totalCount,
                 pageIndex = pn,
                 pageSize = PagingConfig.PAGE_SIZE;
-            var list = _orderService.GetManagerList(vm.QueryOrderNo,vm.QueryMobile,vm.QueryProductName,vm.QuerySku, pageIndex, pageSize, out totalCount);
-            var paging = new Paging<Order>()
+            var list = _userService.GetManagerList(vm.QueryFansId, vm.QueryOpenId, vm.QueryName, pageIndex, pageSize, out totalCount);
+            var paging = new Paging<UserInfo>()
             {
                 Items = list,
                 Size = PagingConfig.PAGE_SIZE,
@@ -45,13 +45,5 @@ namespace ContentSystem.Controllers
             return View(vm);
         }
 
-        public ActionResult Detail(string tid)
-        {
-            var detailModel = _orderService.GetOrderDetail(tid);
-
-            detailModel.UserInfoList = _userService.GetAll();
-
-            return View(detailModel);
-        }
     }
 }

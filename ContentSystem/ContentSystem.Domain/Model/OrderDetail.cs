@@ -30,6 +30,7 @@ namespace ContentSystem.Domain.Model
     {
          public Order Order { get; set; }
          public List<OrderDetail> DetailList { get; set; }
+         public List<UserInfo> UserInfoList { get; set; }
 
     }
 }

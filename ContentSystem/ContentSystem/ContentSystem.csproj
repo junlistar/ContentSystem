@@ -179,6 +179,9 @@
     <Compile Include="Common\SessionHelper.cs" />
     <Compile Include="Common\Versions.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SysAccountController.cs" />
+    <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -187,6 +190,8 @@
     </Compile>
     <Compile Include="Infrastructure\AccountAuthorize.cs" />
     <Compile Include="Infrastructure\DependencyRegistrar.cs" />
+    <Compile Include="Models\SysAccountVM.cs" />
+    <Compile Include="Models\UserInfoVM.cs" />
     <Compile Include="Models\OrderVM.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -291,6 +296,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Order\Detail.cshtml" />
     <Content Include="Views\Order\List.cshtml" />
+    <Content Include="Views\UserInfo\List.cshtml" />
+    <Content Include="Views\SysAccount\Edit.cshtml" />
+    <Content Include="Views\SysAccount\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

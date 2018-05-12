@@ -53,12 +53,12 @@ namespace ContentSystem.Business
         {
             var whereDetail = PredicateBuilder.True<OrderDetail>();
 
-            if (string.IsNullOrWhiteSpace(productname))
+            if (!string.IsNullOrWhiteSpace(productname))
             {
                 whereDetail = whereDetail.And(m => m.Title.Contains(productname));
             }
 
-            if (string.IsNullOrWhiteSpace(sku))
+            if (!string.IsNullOrWhiteSpace(sku))
             {
                 whereDetail = whereDetail.And(m => m.sku_id.ToString().Contains(sku));
             }
@@ -117,7 +117,7 @@ namespace ContentSystem.Business
         public List<Order> GetAll()
         {
             return this._repoOrder.Table.ToList();
-        }
+        } 
     }
 }
 

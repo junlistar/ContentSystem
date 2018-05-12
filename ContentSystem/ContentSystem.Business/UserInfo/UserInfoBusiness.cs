@@ -46,10 +46,19 @@ namespace ContentSystem.Business
         /// 管理后台用户列表
         /// </summary> 
         /// <returns></returns>
-        public List<UserInfo> GetManagerList(string name, int pageNum, int pageSize, out int totalCount)
+        public List<UserInfo> GetManagerList(string fansid, string openid, string name, int pageNum, int pageSize, out int totalCount)
         {
             var where = PredicateBuilder.True<UserInfo>();
-              
+
+
+            if (!string.IsNullOrEmpty(fansid))
+            {
+                where = where.And(m => m.Fans_id.ToString().Contains(fansid));
+            }
+            if (!string.IsNullOrEmpty(openid))
+            {
+                where = where.And(m => m.Fans_weixin_openid.Contains(openid));
+            }
             // name过滤
             if (!string.IsNullOrEmpty(name))
             {
@@ -57,7 +66,7 @@ namespace ContentSystem.Business
             }
 
             totalCount = this._repoUserInfo.Table.Where(where).Count();
-            return this._repoUserInfo.Table.Where(where).Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
+            return this._repoUserInfo.Table.Where(where).OrderByDescending(p=>p.Fans_id).Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
         }
 
         /// <summary>

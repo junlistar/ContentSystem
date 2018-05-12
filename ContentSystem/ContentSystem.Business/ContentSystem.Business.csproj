@@ -47,6 +47,8 @@
     <Compile Include="SystemConfig\SystemConfigBusiness.cs" />
     <Compile Include="Order\IOrderBusiness.cs" />
     <Compile Include="Order\OrderBusiness.cs" />
+    <Compile Include="SysAccount\ISysAccountBusiness.cs" />
+    <Compile Include="SysAccount\SysAccountBusiness.cs" />
     <Compile Include="UserInfo\IUserInfoBusiness.cs" />
     <Compile Include="UserInfo\UserInfoBusiness.cs" />
   </ItemGroup>

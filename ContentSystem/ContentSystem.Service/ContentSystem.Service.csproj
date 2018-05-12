@@ -46,6 +46,7 @@
     <Compile Include="OrderDetailService.cs" />
     <Compile Include="OrderService.cs" />
     <Compile Include="SystemConfigService.cs" />
+    <Compile Include="SysAccountService.cs" />
     <Compile Include="UserInfoService.cs" />
   </ItemGroup>
   <ItemGroup>
