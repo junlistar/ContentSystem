@@ -213,6 +213,30 @@ namespace ContentSystem.Domain
         public class FansInfo {
             public string fans_weixin_openid { get; set; }
         }
+        /// <summary>
+        /// 订单用户模型
+        /// </summary>
+        public class CrmWeixinFans
+        {
+            /// <summary>
+            /// 用户id
+            /// </summary>
+            public Int64 user_id { get; set; }
+            /// <summary>
+            /// 微信openid
+            /// </summary>
+            public string weixin_openid { get; set; }
+
+            /// <summary>
+            /// 头像地址
+            /// </summary>
+            public string avatar { get; set; }
+
+            /// <summary>
+            /// 昵称
+            /// </summary>
+            public string nick { get; set; }
+        }
     }
 
     

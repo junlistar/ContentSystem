@@ -8,7 +8,7 @@ namespace ContentSystem.Domain.Model
 {
     public class UserInfo: IAggregateRoot
     {
-        public virtual int Fans_id { get; set; }
+        public virtual string Fans_id { get; set; }
         public virtual string Fans_weixin_openid { get; set; }
         public virtual string NickName { get; set; }
         public virtual string Avatar { get; set; } 

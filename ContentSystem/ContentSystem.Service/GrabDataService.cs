@@ -17,20 +17,24 @@ namespace ContentSystem.Service
     {
         private IRepository<SystemConfig> _repoSystemConfig;
         private IRepository<Order> _repoOrder;
-        private IRepository<OrderDetail> _repoOrderDatail;
+        private IRepository<OrderDetail> _repoOrderDetail;
+        private IRepository<UserInfo> _repoUserInfo;
 
         public GrabDataService(IRepository<SystemConfig> repoSystemConfig,
             IRepository<Order> repoOrder,
-            IRepository<OrderDetail> repoOrderDatail
+            IRepository<OrderDetail> repoOrderDetail,
+            IRepository<UserInfo> repoUserInfo
             )
         {
             _repoSystemConfig = repoSystemConfig;
             _repoOrder = repoOrder;
-            _repoOrderDatail = repoOrderDatail;
+            _repoUserInfo = repoUserInfo;
+            _repoOrderDetail = repoOrderDetail;
         }
         //获取签名url
         string yzTokenUrl = "https://open.youzan.com/oauth/token";
         string yzOrderUrl = "https://open.youzan.com/api/oauthentry/youzan.trades.sold/3.0.0/get";
+        string yzUserUrl = "https://open.youzan.com/api/oauthentry/youzan.users.weixin.follower/3.0.0/get";
         /// <summary>
         /// 获取有赞返回的订单列表
         /// </summary>
@@ -38,6 +42,8 @@ namespace ContentSystem.Service
         /// <returns></returns>
         public void GetYzOrder(string token)
         {
+            //存储新抓取的订单中用户的openid
+            var openIdList = new List<string>();
             //先获取数据库中的抽时间间隔的配置
             var model = _repoSystemConfig.Table.Where(n => n.Title == "Time").FirstOrDefault();
             if (model == null)
@@ -81,16 +87,19 @@ namespace ContentSystem.Service
             //这里执行插入数据库方法，先判断是否存在，存在则修改，不存在则添加
             foreach (YzOrder item in orderList)
             {
+                openIdList.Add(item.fans_info != null ? item.fans_info.fans_weixin_openid : "");
                 var orderEntity = _repoOrder.Table.Where(m => m.Tid == item.tid).FirstOrDefault();
+
                 //存在
                 if (orderEntity != null)
                 {
                     var newOrderEntity = VmToEntity(item, orderEntity);
+
                     _repoOrder.Update(newOrderEntity);
-                    var orderDatail = _repoOrderDatail.Table.Where(m => m.Tid == newOrderEntity.Tid);
+                    var orderDatail = _repoOrderDetail.Table.Where(m => m.Tid == newOrderEntity.Tid);
                     if (orderDatail.ToList().Count > 0)
                     {
-                        _repoOrderDatail.Delete(orderDatail);
+                        _repoOrderDetail.Delete(orderDatail);
                     }
                     foreach (Orders item1 in item.orders)
                     {
@@ -117,7 +126,6 @@ namespace ContentSystem.Service
                             Num = item1.num,
                             Outer_item_id = item1.outer_item_id,
                             Outer_sku_id = item1.outer_sku_id,
-                            
                             Price = item1.price,
                             sku_id = item1.sku_id,
                             Tid = item.tid,
@@ -125,9 +133,8 @@ namespace ContentSystem.Service
                             Total_fee = item1.total_fee,
                             Wx_no = wx_no,
                             Taboo = taboo
-
                         };
-                        _repoOrderDatail.Insert(orderDatailModel);
+                        _repoOrderDetail.Insert(orderDatailModel);
                     }
 
                 }
@@ -171,11 +178,57 @@ namespace ContentSystem.Service
                             Taboo = taboo
 
                         };
-                        _repoOrderDatail.Insert(orderDatailModel);
+                        _repoOrderDetail.Insert(orderDatailModel);
                     }
                 }
             }
+            //这里根据获取到的订单用户openid查找该用户的详细信息
+            OrderUserDetail(openIdList, token);
+        }
+        /// <summary>
+        /// 根据orenid获取该用户的详细信息
+        /// </summary>
+        /// <param name="openIdList"></param>
+        private void OrderUserDetail(List<string> openIdList, string token) {
+            //list去重复
+            openIdList.Distinct();
+            foreach (string item in openIdList)
+            {
+                var hb = new Hashtable();
+                hb.Add("access_token", token);
+                hb.Add("weixin_openid", item);
+                hb.Add("fields", "nick,weixin_openid,avatar,user_id");
+                //
+                var userJsonStr = HttpHelp.GetResponseJson(yzUserUrl, hb);
+                userJsonStr = userJsonStr.Replace(@"{""response"":", "");
+                userJsonStr = userJsonStr.Substring(0, userJsonStr.Length - 1);
+                userJsonStr = userJsonStr.Replace(@"{""user"":", "");
+                userJsonStr = userJsonStr.Substring(0, userJsonStr.Length - 1);
+                var userModel = JsonHelper.ParseFormJson<CrmWeixinFans>(userJsonStr);
 
+                if (userModel!=null&&userModel.weixin_openid!="")
+                {
+                    var userEntity = _repoUserInfo.Table.Where(m => m.Fans_weixin_openid == userModel.weixin_openid).FirstOrDefault();
+                    if (userEntity!=null)
+                    {
+                        userEntity.Avatar = userModel.avatar;
+                        userEntity.Fans_id =userModel.user_id.ToString();
+                        userEntity.NickName = userModel.nick;
+                        userEntity.Fans_weixin_openid = userModel.weixin_openid;
+                        _repoUserInfo.Update(userEntity);
+                    }
+                    else
+                    {
+                        userEntity = new UserInfo();
+                        userEntity.Avatar = userModel.avatar;
+                        userEntity.Fans_id = userModel.user_id.ToString();
+                        userEntity.NickName = userModel.nick;
+                        userEntity.Fans_weixin_openid = userModel.weixin_openid;
+                        _repoUserInfo.Insert(userEntity);
+                    }
+                }
+                
+            }
         }
         /// <summary>
         /// 订单VM转换订单Entity
