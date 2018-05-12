@@ -74,7 +74,7 @@
                                             <td class="text-center">@item.Receiver_mobile</td>
                                             <td class="text-center">@item.Status_str</td>
                                             <td class="text-center">@item.Created</td>
-                                            <td class="text-center">@item.Pay_time</td>
+                                            <td class="text-center">@(item.Pay_time < item.Created ? "": item.Pay_time.ToString())</td>
                                             <td>
                                                 <a href="/Order/Detail?tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查询详情</a>
                                             </td>
