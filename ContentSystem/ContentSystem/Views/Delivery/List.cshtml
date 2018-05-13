@@ -24,46 +24,23 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-center">订单编号</th>
-                                    <th class="text-center">标题</th>
-                                    <th class="text-center">总金额</th>
-                                    <th class="text-center">实付金额</th>
-                                    <th class="text-center">图片</th>
-                                    <th class="text-center">手机号</th>
-                                    <th class="text-center">订单状态</th>
-                                    <th class="text-center">创建时间</th>
-                                    <th class="text-center">支付时间</th>
-                                    <th>操作</th>
+                                    <th class="text-center">收货人</th>
+                                    <th class="text-center">联系电话</th>
+                                    <th class="text-center">数量</th>
+                                    <th class="text-center">签名</th>
+                                    @*<th>操作</th>*@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (Model.Paging.Items != null && Model.Paging.Items.Count > 0)
+                                @if (Model.DeliveryPaging.Items != null && Model.DeliveryPaging.Items.Count > 0)
                                 {
-                                    foreach (var item in Model.Paging.Items)
+                                    foreach (var item in Model.DeliveryPaging.Items)
                                     {
                                         <tr>
-                                            <td class="text-center">@item.Tid</td>
-                                            <td class="text-center">@item.Title</td>
-                                            <td class="text-center">@item.Total_fee</td>
-                                            <td class="text-center">@item.Payment</td>
-                                            <td class="text-center td-img">
-                                                @if (!string.IsNullOrEmpty(item.Pic_thumb_path))
-                                                {
-                                                    <img src="@item.Pic_thumb_path" class="fancy" href="@item.Pic_thumb_path" data-fancybox-group="gallery" onerror="this.src = '/images/404image.png'">
-                                                }
-                                                else
-                                                {
-                                                    <img src="/images/404image.png">
-                                                }
-                                            </td>
-
-                                            <td class="text-center">@item.Receiver_mobile</td>
-                                            <td class="text-center">@item.Status_str</td>
-                                            <td class="text-center">@item.Created</td>
-                                            <td class="text-center">@(item.Pay_time< item.Created ? "" : item.Pay_time.ToString())</td>
-                                            <td>
-                                                <a href="/Order/Detail?tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查询详情</a>
-                                            </td>
+                                            <td class="text-center">@item.UserName</td>
+                                            <td class="text-center">@item.Phone</td>
+                                            <td class="text-center">@item.Num</td>
+                                            <td class="text-center">@item.Sign</td> 
                                         </tr>
                                     }
                                 }
@@ -75,7 +52,7 @@
                             <div class="btn-group">
                                 <a href="/Delivery/List" class="btn btn-info" style="margin-left:10px;" data-refresh="0"><i class="fa fa-refresh padding-right-4"></i>&nbsp;刷新</a>
                             </div>
-                            @Html.Raw(Model.Paging.Text)
+                            @Html.Raw(Model.DeliveryPaging.Text)
                         </div>
                     </div>
                 </div>

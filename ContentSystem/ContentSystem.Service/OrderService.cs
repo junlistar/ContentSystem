@@ -45,7 +45,7 @@ namespace ContentSystem.Service
             this._userBiz.Delete(model);
         }
 
-        public List<Order> GetDeliveryList(string starttime, string endtime, int pageNum, int pageSize, out int totalCount)
+        public List<DeliveryModel> GetDeliveryList(string starttime, string endtime, int pageNum, int pageSize, out int totalCount)
         {
             return _userBiz.GetDeliveryList(starttime, endtime,pageNum, pageSize, out totalCount);
         }

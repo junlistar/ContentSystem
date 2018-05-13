@@ -38,4 +38,14 @@ namespace ContentSystem.Domain.Model
           
 
     }
+
+    public class DeliveryModel: IAggregateRoot
+    {
+        public string UserName { get; set; }
+        public string Phone { get; set; }
+        public int Num { get; set; } 
+        public string Sign { get; set; }
+
+
+    }
 }

@@ -30,6 +30,11 @@ namespace ContentSystem.Models
         /// </summary>
         public Paging<Order> Paging { get; set; }
 
+       /// <summary>
+       /// 配送分页
+       /// </summary>
+        public Paging<DeliveryModel> DeliveryPaging { get; set; }
+
         public string QueryName { get; set; }
         public string QueryOrderNo { get; set; }
         public string QueryMobile { get; set; }

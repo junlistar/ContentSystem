@@ -14,13 +14,19 @@ namespace ContentSystem.Business
         private IRepository<OrderDetail> _repoOrderDetail;
         private IRepository<CalendarInfo> _repoCalendarInfo;
 
+
+        private IRepository<DeliveryModel> _repoDelivery;
+        
+
         public OrderBusiness(
           IRepository<Order> repoOrder,
+          IRepository<DeliveryModel> repoDelivery,
           IRepository<OrderDetail> repoOrderDetail,
           IRepository<CalendarInfo> repoCalendarInfol
           )
         {
             _repoOrder = repoOrder;
+            _repoDelivery = repoDelivery;
             _repoOrderDetail = repoOrderDetail;
             _repoCalendarInfo = repoCalendarInfol;
         }
@@ -88,13 +94,15 @@ namespace ContentSystem.Business
 
         }
 
-        public List<Order> GetDeliveryList(string starttime, string endtime, int pageNum, int pageSize, out int totalCount)
+        public List<DeliveryModel> GetDeliveryList(string starttime, string endtime, int pageNum, int pageSize, out int totalCount)
         {
             var calendarlist = _repoCalendarInfo.Table.ToList();
 
             var where = PredicateBuilder.True<Order>();
 
             where = where.And(m => m.Pay_time != DateTime.MinValue);
+
+            string whereStr = "";
 
             // orderNo
             if (!string.IsNullOrEmpty(starttime))
@@ -105,8 +113,8 @@ namespace ContentSystem.Business
                 maxDate = maxDate.AddDays(1).AddSeconds(-1);
 
                 var minDate = GetNextWorkDay(t1, 22, calendarlist);
-                where = where.And(m => m.Pay_time >= minDate && m.Pay_time <= maxDate);
-
+                // where = where.And(m => m.Pay_time >= minDate && m.Pay_time <= maxDate);
+                whereStr += " and Pay_time>='" + minDate + "' and Pay_time<='" + maxDate+"'";
             }
             if (!string.IsNullOrEmpty(endtime))
             {
@@ -116,14 +124,25 @@ namespace ContentSystem.Business
                 maxDate = maxDate.AddDays(1).AddSeconds(-1);
 
                 var minDate = GetNextWorkDay(t1, 22, calendarlist);
-                where = where.And(m => m.Pay_time >= minDate && m.Pay_time <= maxDate);
+                // where = where.And(m => m.Pay_time >= minDate && m.Pay_time <= maxDate);
+                whereStr += " and Pay_time>='" + minDate + "' and Pay_time<='" + maxDate + "'";
 
                 //使用这种操作表数据字段的函数调用，会提示函数找不到，因此发现操作变量对象
                 // where = where.And(m => GetNextWorkDay(m.Pay_time, 1, calendarlist) <= t1 && t1 <= GetNextWorkDay(m.Pay_time, 22, calendarlist));
             }
 
-            totalCount = this._repoOrder.Table.Where(where).Count();
-            return this._repoOrder.Table.Where(where).OrderByDescending(p => p.Created).Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
+            //totalCount = this._repoOrder.Table.Where(where).Count();
+            //return this._repoOrder.Table.Where(where).OrderByDescending(p => p.Created).Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
+
+            string selsql = "select Fetcher_name as UserName,Fetcher_mobile as Phone,COUNT(1) as Num FROM [Order] where Pay_time>'1900-01-01 00:00:00.000' and title like '%包月配送%' {0} group by Fetcher_name,Fetcher_mobile";
+
+            selsql = string.Format(selsql, whereStr);
+
+            var result = this._repoDelivery.SqlQuery(selsql, new object[] { });
+
+
+            totalCount = result.Count();
+            return result.OrderBy(p => p.UserName).Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
         }
 
         /// <summary>
