@@ -28,7 +28,7 @@ namespace ContentSystem.Models
         /// <summary>
         /// 用户分页
         /// </summary>
-        public Paging<Order> Paging { get; set; }
+        public Paging<OrderModel> Paging { get; set; }
 
        /// <summary>
        /// 配送分页

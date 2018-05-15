@@ -38,16 +38,25 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-center">订单编号</th>
-                                    <th class="text-center">标题</th>
-                                    <th class="text-center">总金额</th>
-                                    <th class="text-center">实付金额</th>
-                                    <th class="text-center">图片</th>
-                                    <th class="text-center">手机号</th>
+                                    <th class="text-center">用户编号</th>
+                                    <th class="text-center">订单号</th>
+                                    <th class="text-center">微信昵称</th>
+                                    <th class="text-center">微信号</th>
+                                    <th class="text-center">头像</th>
+                                    <th class="text-center">姓名</th>
+                                    <th class="text-center">电话</th>
+                                    <th class="text-center">商品名称</th>
+                                    <th class="text-center">商品sku</th>
+                                    <th class="text-center">商品价格</th>
+                                    <th class="text-center">实际支付</th>
+                                    <th class="text-center">下单时间</th>
+                                    <th class="text-center">付款时间</th>
+                                    <th class="text-center">收货地址</th>
+                                    <th class="text-center">配送方式</th>
+                                    <th class="text-center">忌口水果</th>
                                     <th class="text-center">订单状态</th>
-                                    <th class="text-center">创建时间</th>
-                                    <th class="text-center">支付时间</th>
-                                    <th>操作</th>
+                                    <th class="text-center">备注信息</th> 
+                                    @*<th>操作</th>*@
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,28 +65,36 @@
                                     foreach (var item in Model.Paging.Items)
                                     {
                                         <tr>
+                                            <td class="text-center">@item.Fans_id</td>
                                             <td class="text-center">@item.Tid</td>
-                                            <td class="text-center">@item.Title</td>
-                                            <td class="text-center">@item.Total_fee</td>
-                                            <td class="text-center">@item.Payment</td>
+                                            <td class="text-center">@item.NickName</td>
+                                            <td class="text-center">@item.Fans_weixin_openid</td>     
                                             <td class="text-center td-img">
-                                                @if (!string.IsNullOrEmpty(item.Pic_thumb_path))
+                                                @if (!string.IsNullOrEmpty(item.Avatar))
                                                 {
-                                                    <img src="@item.Pic_thumb_path" class="fancy" href="@item.Pic_thumb_path" data-fancybox-group="gallery" onerror="this.src = '/images/404image.png'">
+                                                    <img src="@item.Avatar" class="fancy" href="@item.Avatar" data-fancybox-group="gallery" onerror="this.src = '/images/404image.png'">
                                                 }
                                                 else
                                                 {
                                                     <img src="/images/404image.png">
                                                 }
                                             </td>
-
-                                            <td class="text-center">@item.Receiver_mobile</td>
-                                            <td class="text-center">@item.Status_str</td>
+                                            <td class="text-center">@item.Fetcher_name</td>
+                                            <td class="text-center">@item.Fetcher_mobile</td>
+                                            <td class="text-center">@item.Title</td>
+                                            <td class="text-center">@item.sku_id</td>
+                                            <td class="text-center">@item.Total_fee</td>
+                                            <td class="text-center">@item.Payment</td>
                                             <td class="text-center">@item.Created</td>
-                                            <td class="text-center">@(item.Pay_time < item.Created ? "": item.Pay_time.ToString())</td>
-                                            <td>
+                                            <td class="text-center">@item.Pay_time</td>
+                                            <td class="text-center">@item.Receiver_address</td>
+                                            <td class="text-center">@item.Shipping_type</td> 
+                                            <td class="text-center">@item.Taboo</td>
+                                            <td class="text-center">@item.Status_str</td>
+                                            <td class="text-center">@item.Buyer_message</td> 
+                                            @*<td>
                                                 <a href="/Order/Detail?tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查询详情</a>
-                                            </td>
+                                            </td>*@
                                         </tr>
                                     }
                                 }

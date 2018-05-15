@@ -48,4 +48,87 @@ namespace ContentSystem.Domain.Model
 
 
     }
+
+
+
+    /// <summary>
+    /// 订单列表数据查询返回模型定义
+    /// </summary>
+    public class OrderModel : IAggregateRoot
+    {
+        /// <summary>
+        /// 用户编号
+        /// </summary>
+        public string Fans_id { get; set; }
+        /// <summary>
+        /// 订单号
+        /// </summary>
+        public string Tid { get; set; }
+        /// <summary>
+        /// 微信昵称
+        /// </summary>
+        public string NickName { get; set; }
+        /// <summary>
+        /// 微信号
+        /// </summary>
+        public string Fans_weixin_openid { get; set; }
+        /// <summary>
+        /// 头像
+        /// </summary>
+        public string Avatar { get; set; }
+       /// <summary>
+       /// 姓名
+       /// </summary>
+        public string Fetcher_name { get; set; }
+        /// <summary>
+        /// 电话
+        /// </summary>
+        public string Fetcher_mobile { get; set; }
+        /// <summary>
+        /// 商品名称
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// 商品sku
+        /// </summary>
+        public string sku_id { get; set; }
+        /// <summary>
+        /// 商品价格
+        /// </summary>
+        public decimal Total_fee { get; set; }
+        /// <summary>
+        /// 实际支付
+        /// </summary>
+        public decimal Payment { get; set; }
+        /// <summary>
+        /// 下单时间
+        /// </summary>
+        public DateTime Created { get; set; }
+        /// <summary>
+        /// 付款时间
+        /// </summary>
+        public DateTime Pay_time { get; set; }
+        /// <summary>
+        /// 收货地址
+        /// </summary>
+        public string Receiver_address { get; set; }
+        /// <summary>
+        /// 配送方式
+        /// </summary>
+        public string Shipping_type { get; set; }
+
+        /// <summary>
+        /// 忌口水果
+        /// </summary>
+        public string Taboo { get; set; }
+        /// <summary>
+        /// 订单状态
+        /// </summary>
+        public string Status_str { get; set; }
+        /// <summary>
+        /// 备注信息
+        /// </summary>
+        public string Buyer_message { get; set; }
+    }
 }

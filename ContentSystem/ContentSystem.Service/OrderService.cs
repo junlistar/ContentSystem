@@ -54,7 +54,7 @@ namespace ContentSystem.Service
         /// 管理后台用户列表
         /// </summary> 
         /// <returns></returns>
-        public List<Order> GetManagerList(string orderNo, string mobile, string productname, string sku, int pageNum, int pageSize, out int totalCount)
+        public List<OrderModel> GetManagerList(string orderNo, string mobile, string productname, string sku, int pageNum, int pageSize, out int totalCount)
         {
             return _userBiz.GetManagerList(orderNo, mobile, productname, sku, pageNum, pageSize, out totalCount);
         }

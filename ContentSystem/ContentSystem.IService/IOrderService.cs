@@ -37,7 +37,7 @@ namespace ContentSystem.IService
         /// 管理后台用户列表
         /// </summary> 
         /// <returns></returns>
-        List<Order> GetManagerList(string orderNo, string mobile, string productname, string sku, int pageNum, int pageSize, out int totalCount);
+        List<OrderModel> GetManagerList(string orderNo, string mobile, string productname, string sku, int pageNum, int pageSize, out int totalCount);
 
         /// <summary>
         /// 根据订单编号获取订单和详情列表

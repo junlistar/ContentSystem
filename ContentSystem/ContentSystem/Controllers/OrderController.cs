@@ -33,7 +33,7 @@ namespace ContentSystem.Controllers
                 pageIndex = pn,
                 pageSize = PagingConfig.PAGE_SIZE;
             var list = _orderService.GetManagerList(vm.QueryOrderNo,vm.QueryMobile,vm.QueryProductName,vm.QuerySku, pageIndex, pageSize, out totalCount);
-            var paging = new Paging<Order>()
+            var paging = new Paging<OrderModel>()
             {
                 Items = list,
                 Size = PagingConfig.PAGE_SIZE,

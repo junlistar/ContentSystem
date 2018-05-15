@@ -16,16 +16,21 @@ namespace ContentSystem.Business
 
 
         private IRepository<DeliveryModel> _repoDelivery;
+        private IRepository<OrderModel> _repoOrderModel;
+
         
+
 
         public OrderBusiness(
           IRepository<Order> repoOrder,
           IRepository<DeliveryModel> repoDelivery,
+          IRepository<OrderModel> repoOrderModel,
           IRepository<OrderDetail> repoOrderDetail,
           IRepository<CalendarInfo> repoCalendarInfol
           )
         {
             _repoOrder = repoOrder;
+            _repoOrderModel = repoOrderModel;
             _repoDelivery = repoDelivery;
             _repoOrderDetail = repoOrderDetail;
             _repoCalendarInfo = repoCalendarInfol;
@@ -149,7 +154,7 @@ namespace ContentSystem.Business
         /// 管理后台用户列表
         /// </summary> 
         /// <returns></returns>
-        public List<Order> GetManagerList(string orderNo, string mobile, string productname, string sku, int pageNum, int pageSize, out int totalCount)
+        public List<OrderModel> GetManagerList(string orderNo, string mobile, string productname, string sku, int pageNum, int pageSize, out int totalCount)
         {
             var whereDetail = PredicateBuilder.True<OrderDetail>();
 
@@ -165,25 +170,62 @@ namespace ContentSystem.Business
             var idList = _repoOrderDetail.Table.Where(whereDetail).Select(p => p.Tid).ToList();
 
 
-            var where = PredicateBuilder.True<Order>();
+            //var where = PredicateBuilder.True<Order>();
+
+            //// orderNo
+            //if (!string.IsNullOrEmpty(orderNo))
+            //{
+            //    where = where.And(m => m.Tid.Contains(orderNo));
+            //}
+            //if (!string.IsNullOrEmpty(mobile))
+            //{
+            //    where = where.And(m => m.Receiver_mobile.Contains(mobile));
+            //}
+
+            //if (idList.Count > 0)
+            //{
+            //    where = where.And(m => idList.Contains(m.Tid));
+            //}
+
+            //totalCount = this._repoOrder.Table.Where(where).Count();
+            //return this._repoOrder.Table.Where(where).OrderByDescending(p => p.Created).Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
+
+            string whereStr = "";
+
+            string selsql = @"select  
+Fans_id as Fans_id , Tid as Tid, NickName as NickName, a.Fans_weixin_openid as Fans_weixin_openid, Avatar , Fetcher_name , Fetcher_mobile,Title,
+sku_id = STUFF((SELECT ',' + CONVERT(NVARCHAR(50), sku_id) FROM
+OrderDetail WHERE Tid = a.tid FOR XML PATH('')),1,1,'') , 
+Total_fee, Payment, Created , Pay_time, Receiver_address,Shipping_type , 
+Taboo = STUFF((SELECT ',' + Taboo FROM
+OrderDetail WHERE Tid = a.tid FOR XML PATH('')),1,1,'') ,   
+Status_str ,
+Buyer_message
+from [Order] a
+left join UserInfo u on a.Fans_weixin_openid = u.Fans_weixin_openid where 1=1 {0}";
 
             // orderNo
             if (!string.IsNullOrEmpty(orderNo))
             {
-                where = where.And(m => m.Tid.Contains(orderNo));
+                whereStr += string.Format(" and a.Tid like '%{0}%'", orderNo);
             }
             if (!string.IsNullOrEmpty(mobile))
             {
-                where = where.And(m => m.Receiver_mobile.Contains(mobile));
+                whereStr += string.Format(" and a.Fetcher_mobile like '%{0}%'", mobile); 
             }
 
-            if (idList.Count > 0)
-            {
-                where = where.And(m => idList.Contains(m.Tid));
+            if (!string.IsNullOrWhiteSpace(productname) || !string.IsNullOrWhiteSpace(sku))
+            { 
+                whereStr += string.Format(" and a.Tid in ('{0}')", string.Join("','", idList));
             }
 
-            totalCount = this._repoOrder.Table.Where(where).Count();
-            return this._repoOrder.Table.Where(where).OrderByDescending(p => p.Created).Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
+            selsql = string.Format(selsql, whereStr);
+
+            var result = this._repoOrderModel.SqlQuery(selsql, new object[] { });
+
+
+            totalCount = result.Count();
+            return result.OrderByDescending(p => p.Created).Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
         }
 
         /// <summary>
