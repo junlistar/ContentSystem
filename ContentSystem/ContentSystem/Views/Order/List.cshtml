@@ -55,8 +55,11 @@
                                     <th class="text-center">配送方式</th>
                                     <th class="text-center">忌口水果</th>
                                     <th class="text-center">订单状态</th>
-                                    <th class="text-center">备注信息</th> 
-                                    @*<th>操作</th>*@
+                                    <th class="text-center">备注信息</th>
+                                    <th class="text-center">开始配送日期</th>
+                                    <th class="text-center">结束配送日期</th>
+                                    <th class="text-center">配送总天数</th> 
+                                    <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,9 +95,10 @@
                                             <td class="text-center">@item.Taboo</td>
                                             <td class="text-center">@item.Status_str</td>
                                             <td class="text-center">@item.Buyer_message</td> 
-                                            @*<td>
-                                                <a href="/Order/Detail?tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查询详情</a>
-                                            </td>*@
+                                            <td>
+                                                <a href="/Order/delay?tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;延期配送</a>
+                                                <a href="/Order/Detail?tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>
+                                            </td>
                                         </tr>
                                     }
                                 }

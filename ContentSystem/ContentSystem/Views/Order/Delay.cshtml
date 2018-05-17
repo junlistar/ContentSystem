@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "订单延期处理列表";
+}
+@model ContentSystem.Models.OrderVM
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row" style="padding:10px 10px;">
+                        <form action="/Order/List" method="get">
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    订单号码：
+                                    
+                                    <input type="text" name="QueryOrderNo" class="form-control inline" style="width:70%;" placeholder="请输入查询订单号" value="@(Model.QueryOrderNo ?? "")">
+                                </div>
+                               
+                            </div>
+                            <div class="col-sm-12" style="height:20px;"></div>
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    延期发货天数：
+                                    <input type="text" name="QueryOrderNo" class="form-control inline" style="width:70%;" placeholder="请输入查询订单号" value="@(Model.QueryOrderNo ?? "")">
+                                </div> 
+                            
+                                <button type="submit" class="btn btn-info">确定</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">配送日期</th>
+                                    <th class="text-center">是否配送</th>
+                                    <th class="text-center">配送数量</th>
+                                    <th class="text-center">备注</th> 
+                                 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Paging.Items != null && Model.Paging.Items.Count > 0)
+                                {
+                                    foreach (var item in Model.Paging.Items)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@item.Fans_id</td>
+                                            <td class="text-center">@item.Fans_id</td>
+                                            <td class="text-center">@item.Tid</td>
+                                            <td class="text-center">@item.NickName</td>
+                                             
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="btn-group">
+                                <a href="/Order/List" class="btn btn-info" style="margin-left:10px;" data-refresh="0"><i class="fa fa-refresh padding-right-4"></i>&nbsp;刷新</a>
+                            </div>
+                            @Html.Raw(Model.Paging.Text)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
