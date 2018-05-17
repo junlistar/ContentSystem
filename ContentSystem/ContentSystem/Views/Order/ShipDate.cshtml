@@ -36,10 +36,12 @@
                                     foreach (var item in Model.Paging.Items)
                                     {
                                         <tr>
-                                            <td class="text-center">@item.Fans_id</td>
-                                            <td class="text-center">@item.Fans_id</td>
-                                            <td class="text-center">@item.Tid</td>
-                                            <td class="text-center">@item.NickName</td>
+                                            <td class="text-center"> </td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center">
+                                                <input type="text" name="txt">
+                                            </td>
+                                            <td class="text-center"> </td>
                                              
                                         </tr>
                                     }
@@ -51,8 +53,9 @@
                         <div class="col-sm-12">
                             <div class="btn-group">
                                 <a href="/Order/List" class="btn btn-info" style="margin-left:10px;" data-refresh="0"><i class="fa fa-refresh padding-right-4"></i>&nbsp;刷新</a>
+                                <a href="/Order/List" class="btn btn-info" style="margin-left:10px;" data-refresh="0"><i class="fa fa-refresh padding-right-4"></i>&nbsp;保存</a>
                             </div>
-                            @Html.Raw(Model.Paging.Text)
+                            @*@Html.Raw(Model.Paging.Text)*@
                         </div>
                     </div>
                 </div>
