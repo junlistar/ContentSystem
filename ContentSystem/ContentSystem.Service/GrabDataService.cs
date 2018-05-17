@@ -111,11 +111,11 @@ namespace ContentSystem.Service
                             //添加开始配送时间，结束配送时间，以及配送总天数
                             //开始配送时间，默认为订单支付成功后的一个工作日
                             string payTime = DateTime.Parse(item.pay_time).ToString("yyyyMMdd");
-                            var startCalendar = _repoCalendarInfo.Table.Where(m => int.Parse(m.Day) > int.Parse(payTime)
+                            var startCalendar = _repoCalendarInfo.Table.Where(m => Convert.ToInt32(m.Day) > Convert.ToInt32(payTime)
                             && m.Status == 0).OrderBy(m => m.Day).FirstOrDefault();
                             newOrderEntity.Start_send = startCalendar.Day;
                             //结束配送时间，默认为从开始配送时间往后算22个工作日
-                            var endCalendar = _repoCalendarInfo.Table.Where(m => int.Parse(m.Day) > int.Parse(payTime)
+                            var endCalendar = _repoCalendarInfo.Table.Where(m => Convert.ToInt32(m.Day) > Convert.ToInt32(payTime)
                             && m.Status == 0).OrderBy(m => m.Day).Take(22).LastOrDefault();
                             newOrderEntity.End_send = endCalendar.Day;
                             newOrderEntity.send_day = 22;
@@ -177,11 +177,11 @@ namespace ContentSystem.Service
                         //添加开始配送时间，结束配送时间，以及配送总天数
                         //开始配送时间，默认为订单支付成功后的一个工作日
                         string payTime = DateTime.Parse(item.pay_time).ToString("yyyyMMdd");
-                        var startCalendar = _repoCalendarInfo.Table.Where(m => int.Parse(m.Day) > int.Parse(payTime)
+                        var startCalendar = _repoCalendarInfo.Table.Where(m => Convert.ToInt32(m.Day) > Convert.ToInt32(payTime)
                         && m.Status == 0).OrderBy(m => m.Day).FirstOrDefault();
                         newOrderEntity.Start_send = startCalendar.Day;
                         //结束配送时间，默认为从开始配送时间往后算22个工作日
-                        var endCalendar = _repoCalendarInfo.Table.Where(m => int.Parse(m.Day) > int.Parse(payTime)
+                        var endCalendar = _repoCalendarInfo.Table.Where(m => Convert.ToInt32(m.Day) > Convert.ToInt32(payTime)
                         && m.Status == 0).OrderBy(m => m.Day).Take(22).LastOrDefault();
                         newOrderEntity.End_send = endCalendar.Day;
                         newOrderEntity.send_day = 22;
