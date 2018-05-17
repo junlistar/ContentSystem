@@ -19,18 +19,24 @@ namespace ContentSystem.Service
         private IRepository<Order> _repoOrder;
         private IRepository<OrderDetail> _repoOrderDetail;
         private IRepository<UserInfo> _repoUserInfo;
+        private IRepository<CalendarInfo> _repoCalendarInfo;
+        private IRepository<SendInfo> _repoSendInfo;
 
         public GrabDataService(IRepository<SystemConfig> repoSystemConfig,
             IRepository<Order> repoOrder,
             IRepository<OrderDetail> repoOrderDetail,
-            IRepository<UserInfo> repoUserInfo
+            IRepository<UserInfo> repoUserInfo,
+            IRepository<CalendarInfo> repoCalendarInfo,
+            IRepository<SendInfo> repoSendInfo
             )
         {
             _repoSystemConfig = repoSystemConfig;
             _repoOrder = repoOrder;
             _repoUserInfo = repoUserInfo;
             _repoOrderDetail = repoOrderDetail;
-        } 
+            _repoCalendarInfo = repoCalendarInfo;
+            _repoSendInfo = repoSendInfo;
+        }
         //获取签名url
         string yzTokenUrl = "https://open.youzan.com/oauth/token";
         string yzOrderUrl = "https://open.youzan.com/api/oauthentry/youzan.trades.sold/3.0.0/get";
@@ -51,7 +57,7 @@ namespace ContentSystem.Service
                 model = _repoSystemConfig.Insert(new SystemConfig()
                 {
                     Title = "Time",
-                    Val = "30",
+                    Val = "90",
                     Remarks = "时间间隔",
                 });
             }
@@ -94,6 +100,29 @@ namespace ContentSystem.Service
                 if (orderEntity != null)
                 {
                     var newOrderEntity = VmToEntity(item, orderEntity);
+
+                    if (item.pay_time != null && item.pay_time != "")
+                    {
+                        //先查询是否存在
+
+                        var count = _repoSendInfo.Table.Where(m => m.Tid == item.tid).Count();
+                        if (count == 0)
+                        {
+                            //添加开始配送时间，结束配送时间，以及配送总天数
+                            //开始配送时间，默认为订单支付成功后的一个工作日
+                            string payTime = DateTime.Parse(item.pay_time).ToString("yyyyMMdd");
+                            var startCalendar = _repoCalendarInfo.Table.Where(m => int.Parse(m.Day) > int.Parse(payTime)
+                            && m.Status == 0).OrderBy(m => m.Day).FirstOrDefault();
+                            newOrderEntity.Start_send = startCalendar.Day;
+                            //结束配送时间，默认为从开始配送时间往后算22个工作日
+                            var endCalendar = _repoCalendarInfo.Table.Where(m => int.Parse(m.Day) > int.Parse(payTime)
+                            && m.Status == 0).OrderBy(m => m.Day).Take(22).LastOrDefault();
+                            newOrderEntity.End_send = endCalendar.Day;
+                            newOrderEntity.send_day = 22;
+                            //添加配送表记录
+                            AddSendInfo(newOrderEntity.Tid, payTime);
+                        }
+                    }
 
                     _repoOrder.Update(newOrderEntity);
                     var orderDatail = _repoOrderDetail.Table.Where(m => m.Tid == newOrderEntity.Tid);
@@ -143,6 +172,27 @@ namespace ContentSystem.Service
                     orderEntity = new Order();
                     //不存在
                     var newOrderEntity = VmToEntity(item, orderEntity);
+                    if (item.pay_time != null && item.pay_time != "")
+                    {
+                        //添加开始配送时间，结束配送时间，以及配送总天数
+                        //开始配送时间，默认为订单支付成功后的一个工作日
+                        string payTime = DateTime.Parse(item.pay_time).ToString("yyyyMMdd");
+                        var startCalendar = _repoCalendarInfo.Table.Where(m => int.Parse(m.Day) > int.Parse(payTime)
+                        && m.Status == 0).OrderBy(m => m.Day).FirstOrDefault();
+                        newOrderEntity.Start_send = startCalendar.Day;
+                        //结束配送时间，默认为从开始配送时间往后算22个工作日
+                        var endCalendar = _repoCalendarInfo.Table.Where(m => int.Parse(m.Day) > int.Parse(payTime)
+                        && m.Status == 0).OrderBy(m => m.Day).Take(22).LastOrDefault();
+                        newOrderEntity.End_send = endCalendar.Day;
+                        newOrderEntity.send_day = 22;
+                        //添加配送表记录
+                        AddSendInfo(newOrderEntity.Tid, payTime);
+
+                    }
+
+                    //配送总天数默认为22天。
+
+
                     _repoOrder.Insert(newOrderEntity);
                     foreach (Orders item1 in item.orders)
                     {
@@ -185,11 +235,30 @@ namespace ContentSystem.Service
             //这里根据获取到的订单用户openid查找该用户的详细信息
             OrderUserDetail(openIdList, token);
         }
+
+        private void AddSendInfo(string tid, string payTime)
+        {
+            var calendarList = _repoCalendarInfo.Table.Where(m => int.Parse(m.Day) > int.Parse(payTime)
+                        && m.Status == 0).OrderBy(m => m.Day).Take(22);
+            foreach (CalendarInfo item in calendarList)
+            {
+                _repoSendInfo.Insert(new SendInfo()
+                {
+                    Tid = tid,
+                    Is_send = 1,
+                    Send_num = 1,
+                    Send_time = DateTime.Parse(item.Day).ToString("yyyy-MM-dd")
+                });
+            }
+        }
+
+
         /// <summary>
         /// 根据orenid获取该用户的详细信息
         /// </summary>
         /// <param name="openIdList"></param>
-        private void OrderUserDetail(List<string> openIdList, string token) {
+        private void OrderUserDetail(List<string> openIdList, string token)
+        {
             //list去重复
             openIdList.Distinct();
             foreach (string item in openIdList)
@@ -206,13 +275,13 @@ namespace ContentSystem.Service
                 userJsonStr = userJsonStr.Substring(0, userJsonStr.Length - 1);
                 var userModel = JsonHelper.ParseFormJson<CrmWeixinFans>(userJsonStr);
 
-                if (userModel!=null&&userModel.weixin_openid!="")
+                if (userModel != null && userModel.weixin_openid != "")
                 {
                     var userEntity = _repoUserInfo.Table.Where(m => m.Fans_weixin_openid == userModel.weixin_openid).FirstOrDefault();
-                    if (userEntity!=null)
+                    if (userEntity != null)
                     {
                         userEntity.Avatar = userModel.avatar;
-                        userEntity.Fans_id =userModel.user_id.ToString();
+                        userEntity.Fans_id = userModel.user_id.ToString();
                         userEntity.NickName = userModel.nick;
                         userEntity.Fans_weixin_openid = userModel.weixin_openid;
                         _repoUserInfo.Update(userEntity);
@@ -227,7 +296,7 @@ namespace ContentSystem.Service
                         _repoUserInfo.Insert(userEntity);
                     }
                 }
-                
+
             }
         }
         /// <summary>
@@ -262,7 +331,7 @@ namespace ContentSystem.Service
             orderEntity.Status_str = item.status_str;
             orderEntity.Tid = item.tid;
             orderEntity.Title = item.title;
-            orderEntity.Pay_time = item.pay_time =="" ? DateTime.MinValue : DateTime.Parse(item.pay_time);
+            orderEntity.Pay_time = item.pay_time == "" ? DateTime.MinValue : DateTime.Parse(item.pay_time);
             orderEntity.Total_fee = item.total_fee;
             return orderEntity;
         }
