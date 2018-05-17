@@ -32,16 +32,12 @@ namespace ContentSystem.Controllers
             if (string.IsNullOrWhiteSpace(vm.QueryStartTime))
             {
                 vm.QueryStartTime = DateTime.Now.ToString("yyyy-MM-dd");
-            }
-            if (string.IsNullOrWhiteSpace(vm.QueryEndTime))
-            {
-                vm.QueryEndTime = DateTime.Now.ToString("yyyy-MM-dd");
-            }
+            } 
 
             int totalCount,
                 pageIndex = pn,
                 pageSize = PagingConfig.PAGE_SIZE;
-            var list = _orderService.GetDeliveryList(vm.QueryStartTime, vm.QueryEndTime, pageIndex, pageSize, out totalCount);
+            var list = _orderService.GetDeliveryList(vm.QueryStartTime, vm.QueryName, pageIndex, pageSize, out totalCount);
             var paging = new Paging<DeliveryModel>()
             {
                 Items = list,
