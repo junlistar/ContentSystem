@@ -45,7 +45,11 @@ namespace ContentSystem.Data.Mapping
             this.Property(m => m.Tid);
             this.Property(m => m.Title);
             this.Property(m => m.Total_fee);
+            this.Property(m => m.Start_send);
+            this.Property(m => m.End_send);
+            this.Property(m => m.send_day);
              
-        }
+
+    }
     }
 }

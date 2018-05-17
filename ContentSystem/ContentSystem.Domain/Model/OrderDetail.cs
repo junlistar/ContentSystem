@@ -8,7 +8,7 @@ namespace ContentSystem.Domain.Model
 {
     public class OrderDetail : IAggregateRoot
     {
-        public virtual string OrderDetailId { get; set; }
+        public virtual int OrderDetailId { get; set; }
         public virtual string Tid { get; set; }
         public virtual int Oid { get; set; }
         public virtual string Outer_sku_id { get; set; } 

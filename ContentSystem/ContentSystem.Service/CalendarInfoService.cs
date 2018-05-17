@@ -264,7 +264,7 @@ namespace ContentSystem.Service
                 for (int i = 0; i < strList.Count(); i = i + 2)
                 {
                     CalendarInfo cinfo = new CalendarInfo();
-                    cinfo.Day = strList[i];
+                    cinfo.Day =int.Parse(strList[i]);
                     cinfo.Status = int.Parse(strList[i + 1]);
 
                     list.Add(cinfo);

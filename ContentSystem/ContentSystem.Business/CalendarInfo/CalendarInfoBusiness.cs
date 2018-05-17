@@ -54,7 +54,7 @@ namespace ContentSystem.Business
         /// <returns></returns>
         public bool IsExistName(string name)
         {
-            return this._repoCalendarInfo.Table.Any(p => p.Day == name);
+            return this._repoCalendarInfo.Table.Any(p => p.Day.ToString() == name);
         }
 
         /// <summary>

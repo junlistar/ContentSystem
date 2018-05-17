@@ -9,7 +9,7 @@ namespace ContentSystem.Domain.Model
     public class CalendarInfo : IAggregateRoot
     {
         public virtual int CalendarInfoId { get; set; }
-        public virtual string Day { get; set; }
+        public virtual int Day { get; set; }
         public virtual int Status { get; set; } 
           
     }

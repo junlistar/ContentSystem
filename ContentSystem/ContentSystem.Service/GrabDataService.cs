@@ -6,6 +6,7 @@ using ContentSystem.Service;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,14 +111,14 @@ namespace ContentSystem.Service
                         {
                             //添加开始配送时间，结束配送时间，以及配送总天数
                             //开始配送时间，默认为订单支付成功后的一个工作日
-                            string payTime = DateTime.Parse(item.pay_time).ToString("yyyyMMdd");
-                            var startCalendar = _repoCalendarInfo.Table.Where(m => Convert.ToInt32(m.Day) > Convert.ToInt32(payTime)
+                            int payTime = Convert.ToInt32(DateTime.Parse(item.pay_time).ToString("yyyyMMdd"));
+                            var startCalendar = _repoCalendarInfo.Table.Where(m => m.Day> payTime
                             && m.Status == 0).OrderBy(m => m.Day).FirstOrDefault();
-                            newOrderEntity.Start_send = startCalendar.Day;
+                            newOrderEntity.Start_send = startCalendar.Day.ToString();
                             //结束配送时间，默认为从开始配送时间往后算22个工作日
-                            var endCalendar = _repoCalendarInfo.Table.Where(m => Convert.ToInt32(m.Day) > Convert.ToInt32(payTime)
-                            && m.Status == 0).OrderBy(m => m.Day).Take(22).LastOrDefault();
-                            newOrderEntity.End_send = endCalendar.Day;
+                            var endCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
+                            && m.Status == 0).OrderBy(m => m.Day).Skip(21).Take(1).FirstOrDefault();
+                            newOrderEntity.End_send = endCalendar.Day.ToString();
                             newOrderEntity.send_day = 22;
                             //添加配送表记录
                             AddSendInfo(newOrderEntity.Tid, payTime);
@@ -176,18 +177,24 @@ namespace ContentSystem.Service
                     {
                         //添加开始配送时间，结束配送时间，以及配送总天数
                         //开始配送时间，默认为订单支付成功后的一个工作日
-                        string payTime = DateTime.Parse(item.pay_time).ToString("yyyyMMdd");
-                        var startCalendar = _repoCalendarInfo.Table.Where(m => Convert.ToInt32(m.Day) > Convert.ToInt32(payTime)
+                        int payTime = Convert.ToInt32(DateTime.Parse(item.pay_time).ToString("yyyyMMdd"));
+                        var startCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
                         && m.Status == 0).OrderBy(m => m.Day).FirstOrDefault();
-                        newOrderEntity.Start_send = startCalendar.Day;
+                        newOrderEntity.Start_send = startCalendar.Day.ToString();
                         //结束配送时间，默认为从开始配送时间往后算22个工作日
-                        var endCalendar = _repoCalendarInfo.Table.Where(m => Convert.ToInt32(m.Day) > Convert.ToInt32(payTime)
-                        && m.Status == 0).OrderBy(m => m.Day).Take(22).LastOrDefault();
-                        newOrderEntity.End_send = endCalendar.Day;
+                        var endCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
+                        && m.Status == 0).OrderBy(m => m.Day).Skip(21).Take(1).FirstOrDefault();
+                        newOrderEntity.End_send = endCalendar.Day.ToString();
                         newOrderEntity.send_day = 22;
                         //添加配送表记录
                         AddSendInfo(newOrderEntity.Tid, payTime);
 
+                    }
+                    else
+                    {
+                        newOrderEntity.Start_send = "";
+                        newOrderEntity.End_send = "";
+                        newOrderEntity.send_day = 0;
                     }
 
                     //配送总天数默认为22天。
@@ -236,9 +243,9 @@ namespace ContentSystem.Service
             OrderUserDetail(openIdList, token);
         }
 
-        private void AddSendInfo(string tid, string payTime)
+        private void AddSendInfo(string tid, int payTime)
         {
-            var calendarList = _repoCalendarInfo.Table.Where(m => int.Parse(m.Day) > int.Parse(payTime)
+            var calendarList = _repoCalendarInfo.Table.Where(m =>m.Day > payTime
                         && m.Status == 0).OrderBy(m => m.Day).Take(22);
             foreach (CalendarInfo item in calendarList)
             {
@@ -247,8 +254,8 @@ namespace ContentSystem.Service
                     Tid = tid,
                     Is_send = 1,
                     Send_num = 1,
-                    Send_time = DateTime.Parse(item.Day).ToString("yyyy-MM-dd")
-                });
+                    Send_time = DateTime.ParseExact(item.Day.ToString(), "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture).ToString("yyyy-MM-dd")
+                }); 
             }
         }
 
@@ -331,7 +338,7 @@ namespace ContentSystem.Service
             orderEntity.Status_str = item.status_str;
             orderEntity.Tid = item.tid;
             orderEntity.Title = item.title;
-            orderEntity.Pay_time = item.pay_time == "" ? DateTime.MinValue : DateTime.Parse(item.pay_time);
+            orderEntity.Pay_time = item.pay_time == "" ? (DateTime)SqlDateTime.MinValue : DateTime.Parse(item.pay_time);
             orderEntity.Total_fee = item.total_fee;
             return orderEntity;
         }

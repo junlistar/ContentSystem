@@ -74,7 +74,7 @@ namespace ContentSystem.Business
             {
                 _temp = _temp.AddDays(-1);
 
-                var daystr = _temp.ToString("yyyyMMdd");
+                var daystr = int.Parse(_temp.ToString("yyyyMMdd"));
 
                 var nday = clist.Where(p => p.Day == daystr).FirstOrDefault();
 
