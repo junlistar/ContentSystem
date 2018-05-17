@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="ContentDbContext.cs" />
     <Compile Include="IDbContext.cs" />
+    <Compile Include="Mapping\SendInfo.cs" />
     <Compile Include="Mapping\Order.cs" />
     <Compile Include="Mapping\OrderDetail.cs" />
     <Compile Include="Mapping\SystemConfig.cs" />
