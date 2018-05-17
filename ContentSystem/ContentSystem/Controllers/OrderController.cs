@@ -53,5 +53,16 @@ namespace ContentSystem.Controllers
 
             return View(detailModel);
         }
+
+        public ActionResult ShipDate(string tid)
+        {
+           
+            return View();
+        }
+        public ActionResult Delay(string tid)
+        {
+
+            return View();
+        }
     }
 }

@@ -9,7 +9,7 @@
                 <div class="ibox-content">
                     <div class="row" style="padding:10px 10px;">
                         <form action="/Delivery/List" method="get">
-                             
+
                             <div class="col-sm-12">
                                 <div class="col-sm-4">
                                     发货日期：
@@ -18,7 +18,8 @@
                                 </div>
                                 <div class="col-sm-4">
                                     套餐名称：
-                                    <input type="text" name="QueryName" class="form-control inline" style="width:70%;" placeholder="请输入查询订单套餐名称" value="@(Model.QueryName ?? "")">    </div>
+                                    <input type="text" name="QueryName" class="form-control inline" style="width:70%;" placeholder="请输入查询订单套餐名称" value="@(Model.QueryName ?? "")">
+                                </div>
                                 <button type="submit" class="btn btn-info">搜索</button>
                             </div>
                         </form>
@@ -33,7 +34,7 @@
                                     <th class="text-center">联系电话</th>
                                     <th class="text-center">数量</th>
                                     <th class="text-center">签名</th>
-                                    @*<th>操作</th>*@
+                                    <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,7 +48,10 @@
                                             <td class="text-center">@item.UserName</td>
                                             <td class="text-center">@item.Phone</td>
                                             <td class="text-center">@item.Num</td>
-                                            <td class="text-center">@item.Sign</td> 
+                                            <td class="text-center">@item.Sign</td>
+                                            <td> 
+                                                <a href="/Order/ShipDate?tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>
+                                            </td>
                                         </tr>
                                     }
                                 }
