@@ -10,16 +10,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ContentSystem.Data.Mapping
 {
-    public class SystemConfigMap : EntityTypeConfiguration<SystemConfig>
+    public class SendInfoMap : EntityTypeConfiguration<SendInfo>
     {
-        public SystemConfigMap()
+        public SendInfoMap()
         {
-            this.ToTable("SystemConfig");
-            this.HasKey(m => m.SystemConfigId);
-            this.Property(m => m.Remarks);
-            this.Property(m => m.Title); 
-            this.Property(m => m.Val); 
-             
+            this.ToTable("SendInfo");
+            this.HasKey(m => m.SendInfoId);
+            this.Property(m => m.Tid);
+            this.Property(m => m.Send_time);
+            this.Property(m => m.Is_send);
+            this.Property(m => m.Send_num);
         }
     }
 }

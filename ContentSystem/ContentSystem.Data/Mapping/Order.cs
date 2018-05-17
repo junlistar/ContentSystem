@@ -16,6 +16,7 @@ namespace ContentSystem.Data.Mapping
         {
             this.ToTable("Order");
             this.HasKey(m => m.Tid);
+            this.Property(m => m.OrderId);
             this.Property(m => m.Buyer_message);
             this.Property(m => m.Created);
             this.Property(m => m.Fans_weixin_openid);

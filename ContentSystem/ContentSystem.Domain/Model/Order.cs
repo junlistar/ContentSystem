@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace ContentSystem.Domain.Model
 {
     public class Order : IAggregateRoot
-    { 
+    {
+        public virtual int OrderId { get; set; }
         public virtual string Title { get; set; }
         public virtual string Tid { get; set; }
         public virtual decimal Total_fee { get; set; }
@@ -34,16 +35,19 @@ namespace ContentSystem.Domain.Model
         public virtual string Shop_state { get; set; }
         public virtual string Shop_city { get; set; }
         public virtual string Shop_district { get; set; }
-        public virtual string Shop_address { get; set; } 
-          
+        public virtual string Shop_address { get; set; }
+        public virtual string Start_send { get; set; }
+        public virtual string End_send { get; set; }
+        public virtual int send_day { get; set; }
+
 
     }
 
-    public class DeliveryModel: IAggregateRoot
+    public class DeliveryModel : IAggregateRoot
     {
         public string UserName { get; set; }
         public string Phone { get; set; }
-        public int Num { get; set; } 
+        public int Num { get; set; }
         public string Sign { get; set; }
 
 
@@ -76,9 +80,9 @@ namespace ContentSystem.Domain.Model
         /// 头像
         /// </summary>
         public string Avatar { get; set; }
-       /// <summary>
-       /// 姓名
-       /// </summary>
+        /// <summary>
+        /// 姓名
+        /// </summary>
         public string Fetcher_name { get; set; }
         /// <summary>
         /// 电话
