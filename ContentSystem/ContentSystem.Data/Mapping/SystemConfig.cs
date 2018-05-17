@@ -16,6 +16,8 @@ namespace ContentSystem.Data.Mapping
         {
             this.ToTable("SystemConfig");
             this.HasKey(m => m.SystemConfigId);
+            this.Property(m => m.SystemConfigId)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(m => m.Remarks);
             this.Property(m => m.Title); 
             this.Property(m => m.Val); 

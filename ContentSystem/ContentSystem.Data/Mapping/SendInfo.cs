@@ -16,6 +16,8 @@ namespace ContentSystem.Data.Mapping
         {
             this.ToTable("SendInfo");
             this.HasKey(m => m.SendInfoId);
+            this.Property(m => m.SendInfoId)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(m => m.Tid);
             this.Property(m => m.Send_time);
             this.Property(m => m.Is_send);
