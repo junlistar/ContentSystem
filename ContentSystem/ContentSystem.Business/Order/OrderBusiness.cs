@@ -196,13 +196,14 @@ Status_str ,
 Buyer_message,
 a.Start_send,
 a.End_send,
-ISNULL(t.Send_day,0),
-ISNULL(t.Send_total,0)
+ISNULL(t.Send_day,0) as Send_day,
+ISNULL(t.Send_total,0) as Send_total
 from [Order] a
 left join UserInfo u on a.Fans_weixin_openid = u.Fans_weixin_openid 
 left join (select Tid,COUNT(*) as Send_day,SUM(Send_num) as Send_total from SendInfo 
 group by Send_num,Tid) t on a.Tid=t.Tid
 where 1=1
+ 
  {0}";
 
             // orderNo
