@@ -183,6 +183,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\DeliveryController.cs" />
     <Compile Include="Controllers\SysAccountController.cs" />
+    <Compile Include="Controllers\GrabDataController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -211,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\animate.css" />
+    <Content Include="Content\asDatepicker.css" />
     <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -233,6 +235,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="images\404image.png" />
     <Content Include="images\blank.gif" />
+    <Content Include="images\calendar-next-hover.png" />
+    <Content Include="images\calendar-next.png" />
+    <Content Include="images\calendar-prev-hover.png" />
+    <Content Include="images\calendar-prev.png" />
     <Content Include="images\fancybox_loading.gif" />
     <Content Include="images\fancybox_overlay.png" />
     <Content Include="images\fancybox_sprite.png" />
@@ -261,6 +267,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-asDatepicker.js" />
     <Content Include="Scripts\jquery.fancybox.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -637,7 +644,8 @@
     <Content Include="Scripts\ueditor\third-party\video-js\font\vjs.ttf" />
     <Content Include="Scripts\ueditor\third-party\video-js\font\vjs.woff" />
     <Content Include="Views\Order\Delay.cshtml" />
-    <Content Include="Views\Order\ShipDate.cshtml" />
+    <Content Include="Views\Order\SendInfoList.cshtml" />
+    <Content Include="Views\GrabData\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

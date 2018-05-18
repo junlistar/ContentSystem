@@ -1,4 +1,5 @@
-﻿using ContentSystem.Core.Utils;
+﻿using ContentSystem.Common;
+using ContentSystem.Core.Utils;
 using ContentSystem.Domain.Model;
 using ContentSystem.IService;
 using ContentSystem.Models;
@@ -18,7 +19,8 @@ namespace ContentSystem.Controllers
 
 
         public OrderController(IOrderService orderService,
-             IUserInfoService userService) {
+             IUserInfoService userService)
+        {
             _orderService = orderService;
             _userService = userService;
         }
@@ -32,7 +34,7 @@ namespace ContentSystem.Controllers
             int totalCount,
                 pageIndex = pn,
                 pageSize = PagingConfig.PAGE_SIZE;
-            var list = _orderService.GetManagerList(vm.QueryOrderNo,vm.QueryMobile,vm.QueryProductName,vm.QuerySku, pageIndex, pageSize, out totalCount);
+            var list = _orderService.GetManagerList(vm.QueryOrderNo, vm.QueryMobile, vm.QueryProductName, vm.QuerySku, pageIndex, pageSize, out totalCount);
             var paging = new Paging<OrderModel>()
             {
                 Items = list,
@@ -41,6 +43,15 @@ namespace ContentSystem.Controllers
                 Index = pn,
             };
             vm.Paging = paging;
+
+            return View(vm);
+        }
+
+        public ActionResult SendInfoList(OrderVM vm, int pn = 1)
+        { 
+            var list = _orderService.GetSendInfoList(vm.Tid);
+           
+            vm.SendInfoList = list;
 
             return View(vm);
         }
@@ -56,13 +67,57 @@ namespace ContentSystem.Controllers
 
         public ActionResult ShipDate(string tid)
         {
-           
-            return View();
-        }
-        public ActionResult Delay(string tid)
-        {
 
             return View();
+        }
+
+        /// <summary>
+        /// 延期或赠送
+        /// </summary>
+        /// <param name="tid"></param>
+        /// <param name="inputstr"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult Delay(string tid, string inputstr)
+        {
+            try
+            {  
+                if (string.IsNullOrWhiteSpace(inputstr) || string.IsNullOrWhiteSpace(tid))
+                {
+                    return Json(new { Status = Successed.Error }, JsonRequestBehavior.AllowGet);
+                }
+                int tmp_day = 0;
+                if (int.TryParse(inputstr, out tmp_day))
+                {
+                    //如果是数字，赠送处理
+                    if (tmp_day > 0)
+                    {
+                        //todo:赠送处理
+
+                    }
+                }
+                else
+                {
+                    //如果不是数字
+                    var tmp_array = inputstr.Split(',');
+                    List<DateTime> dtlist = new List<DateTime>();
+                    foreach (var item in tmp_array)
+                    {
+                        dtlist.Add(Convert.ToDateTime(item));
+                    }
+                    //排序
+                    dtlist.Sort();
+                    //todo:延期处理
+
+
+                }
+
+                return Json(new { Status = Successed.Ok }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new { Status = Successed.Error }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

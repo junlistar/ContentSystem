@@ -77,5 +77,15 @@ namespace ContentSystem.Service
         {
             return _userBiz.GetAll();
         }
+
+        /// <summary>
+        /// 获取发货日期列表
+        /// </summary>
+        /// <param name="tid"></param>
+        /// <returns></returns>
+        public List<SendInfo> GetSendInfoList(string tid)
+        {
+            return _userBiz.GetSendInfoList(tid);
+        }
     }
 }

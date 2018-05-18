@@ -262,6 +262,16 @@ where 1=1
         {
             return this._repoOrder.Table.ToList();
         }
+
+        /// <summary>
+        /// 获取发货日期列表
+        /// </summary>
+        /// <param name="tid"></param>
+        /// <returns></returns>
+        public List<SendInfo> GetSendInfoList(string tid)
+        {
+            return this._repoSendInfo.Table.Where(p=>p.Tid == tid).ToList();
+        }
     }
 }
 

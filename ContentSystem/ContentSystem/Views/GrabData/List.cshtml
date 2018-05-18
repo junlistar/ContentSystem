@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "订单列表";
+}
+@section head{
+
+    <link href="/Content/asDatepicker.css" rel="stylesheet" />
+    <style type="text/css">
+        .calendar-icon {
+            display: none;
+        }
+    </style>
+}
+@model ContentSystem.Models.OrderVM
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row" style="padding:10px 10px;">
+                        <form action="/Order/List" method="get">
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    订单号码：
+                                    <input type="text" name="QueryOrderNo" class="form-control inline" style="width:70%;" placeholder="请输入查询订单号" value="@(Model.QueryOrderNo ?? "")">
+                                </div>
+                                <div class="col-sm-4">
+                                    手机号码：
+                                    <input type="text" name="QueryMobile" class="form-control inline" style="width:70%;" placeholder="请输入查询手机号" value="@(Model.QueryMobile ?? "")">
+                                </div>
+                            </div>
+                            <div class="col-sm-12" style="height:20px;"></div>
+                            @*<div class="hr-line-dashed"></div>*@
+                            <div class="col-sm-12">
+                                <div class="col-sm-4">
+                                    商品名称：
+                                    <input type="text" name="QueryProductName" class="form-control inline" style="width:70%;" placeholder="请输入查询商品名称" value="@(Model.QueryProductName ?? "")">
+                                </div>
+                                <div class="col-sm-4">
+                                    商品SKU：
+                                    <input type="text" name="QuerySku" class="form-control inline" style="width:70%;" placeholder="请输入查询商品SKU" value="@(Model.QuerySku ?? "")">
+                                </div>
+                                <button type="submit" class="btn btn-info">搜索</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section script{
+    <script src="/Scripts/jquery-asDatepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$(".txt-calendar").asDatepicker({ mode: 'multiple', calendars: '1' });
+            $(".btn-delay").click(function () { 
+                //console.log($(this).prev(".txt-calendar"));
+                $(this).prev().prev().asDatepicker({ mode: 'multiple', calendars: '1' });
+                
+            })
+
+            $(".btn-savedata").click(function () {
+                //console.log($(this).prev(".txt-calendar"));
+                var _inputstr = $(this).parent().find(".txt-calendar").val();
+                var _tid = $(this).data("tid");
+                if (_val != "") {
+                    var dataArr = {
+                        tid: _tid,
+                        inputstr: _inputstr
+                    };
+                    $.post('/Order/Delay', dataArr, function (data) {
+                        if (data.Status == 200) {
+                            swal("提示", "操作成功");
+                        }
+                        if (data.Status == 202) {
+                            swal("提示", "操作失败");
+                        } 
+                    }).complete(function () { window.parent.hideModal(); });
+                }
+            })
+        });
+    </script>
+}
+

@@ -47,5 +47,12 @@ namespace ContentSystem.Business
         /// </summary>
         /// <returns></returns>
         List<Order> GetAll();
+
+        /// <summary>
+        /// 获取发货日期列表
+        /// </summary>
+        /// <param name="tid"></param>
+        /// <returns></returns>
+        List<SendInfo> GetSendInfoList(string tid);
     }
 }

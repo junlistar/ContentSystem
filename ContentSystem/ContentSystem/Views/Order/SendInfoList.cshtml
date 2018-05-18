@@ -8,12 +8,12 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
                     <div class="row" style="padding:10px 10px;">
-                        <form action="/Order/List" method="get">
+                        <form action="/Order/SendInfoList" method="get">
                             <div class="col-sm-12">
                                 <div class="col-sm-4">
                                     订单号码：
                                     
-                                    <input type="text" name="QueryOrderNo" class="form-control inline" style="width:70%;" placeholder="请输入查询订单号" value="@(Model.QueryOrderNo ?? "")">
+                                    <input type="text" name="QueryOrderNo" class="form-control inline" style="width:70%;" placeholder="请输入查询订单号" value="@(Model.Tid ?? "")">
                                 </div>
                                
                             </div> 
@@ -26,21 +26,25 @@
                                     <th class="text-center">配送日期</th>
                                     <th class="text-center">是否配送</th>
                                     <th class="text-center">配送数量</th>
-                                    <th class="text-center">备注</th> 
+                                    <th class="text-center">操作</th> 
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (Model.Paging.Items != null && Model.Paging.Items.Count > 0)
+                                @if (Model.SendInfoList!= null && Model.SendInfoList.Count > 0)
                                 {
-                                    foreach (var item in Model.Paging.Items)
+                                    foreach (var item in Model.SendInfoList)
                                     {
                                         <tr>
-                                            <td class="text-center"> </td>
-                                            <td class="text-center"></td>
+                                            <td class="text-center">@item.Send_time</td>
                                             <td class="text-center">
-                                                <input type="text" name="txt">
+                                                @*<input type="text" name="txt_@(item.Tid)_issend" id="txt_@(item.Tid)_issend" value="@(item.Is_send==1 ? '是':'否')">*@
+                                                @(item.Is_send == 1 ? '是' : '否')
                                             </td>
-                                            <td class="text-center"> </td>
+                                            <td class="text-center">
+                                                <input type="number" min="0" name="txt_@(item.Tid)_num" id="txt_@(item.Tid)_num" value="@item.Send_num">
+                                            </td>
+                                            <td class="text-center"> 
+                                            </td>
                                              
                                         </tr>
                                     }
@@ -51,8 +55,8 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="btn-group">
-                                <a href="/Order/List" class="btn btn-info" style="margin-left:10px;" data-refresh="0"><i class="fa fa-refresh padding-right-4"></i>&nbsp;刷新</a>
-                                <a href="/Order/List" class="btn btn-info" style="margin-left:10px;" data-refresh="0"><i class="fa fa-refresh padding-right-4"></i>&nbsp;保存</a>
+                                <a href="/Order/SendInfoList" class="btn btn-info" style="margin-left:10px;" data-refresh="0"><i class="fa fa-refresh padding-right-4"></i>&nbsp;刷新</a>
+                                <a href="/Order/SendInfoList" class="btn btn-info" style="margin-left:10px;" data-refresh="0"><i class="fa fa-refresh padding-right-4"></i>&nbsp;保存</a>
                             </div>
                             @*@Html.Raw(Model.Paging.Text)*@
                         </div>

@@ -1,6 +1,15 @@
 ﻿@{
     ViewBag.Title = "订单列表";
 }
+@section head{
+
+    <link href="/Content/asDatepicker.css" rel="stylesheet" />
+    <style type="text/css">
+        .calendar-icon {
+            display: none;
+        }
+    </style>
+}
 @model ContentSystem.Models.OrderVM
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
@@ -59,6 +68,7 @@
                                     <th class="text-center">开始配送日期</th>
                                     <th class="text-center">结束配送日期</th>
                                     <th class="text-center">配送总天数</th>
+                                    <th>延期配送<br>赠送日期</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -98,13 +108,17 @@
                                             <td class="text-center">@item.Start_send</td>
                                             <td class="text-center">@item.End_send</td>
                                             <td class="text-center">@item.Send_day</td>
+                                            <td class="text-center">
+                                                <input type="text" class="form-control txt-calendar" value=""><br>
+                                                <button  class="btn btn-success btn-delay"><i class="fa fa-check padding-right-4"></i>&nbsp;延期配送</button> 
+                                                <button  class="btn btn-success btn-savedata" data-tid="@item.Tid"><i class="fa fa-check padding-right-4"></i>&nbsp;确定</button>
+                                            </td>
                                             <td>
-                                                <a href="/Order/delay?tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;延期配送</a>
-                                                <a href="/Order/Detail?tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>
+                                                <a href="/Order/SendInfoList?Tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>
                                             </td>
                                         </tr>
-                                                        }
-                                                    }
+                                    }
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -121,3 +135,37 @@
         </div>
     </div>
 </div>
+@section script{
+    <script src="/Scripts/jquery-asDatepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$(".txt-calendar").asDatepicker({ mode: 'multiple', calendars: '1' });
+            $(".btn-delay").click(function () { 
+                //console.log($(this).prev(".txt-calendar"));
+                $(this).prev().prev().asDatepicker({ mode: 'multiple', calendars: '1' });
+                
+            })
+
+            $(".btn-savedata").click(function () {
+                //console.log($(this).prev(".txt-calendar"));
+                var _inputstr = $(this).parent().find(".txt-calendar").val();
+                var _tid = $(this).data("tid");
+                if (_val != "") {
+                    var dataArr = {
+                        tid: _tid,
+                        inputstr: _inputstr
+                    };
+                    $.post('/Order/Delay', dataArr, function (data) {
+                        if (data.Status == 200) {
+                            swal("提示", "操作成功");
+                        }
+                        if (data.Status == 202) {
+                            swal("提示", "操作失败");
+                        } 
+                    }).complete(function () { window.parent.hideModal(); });
+                }
+            })
+        });
+    </script>
+}
+

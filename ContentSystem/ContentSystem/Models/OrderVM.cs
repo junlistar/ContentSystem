@@ -11,6 +11,9 @@ namespace ContentSystem.Models
         /// 编号
         /// </summary>
         public int Id { get; set; }
+
+        public string Tid { get; set; }
+
         /// <summary>
         /// 实体信息
         /// </summary>
@@ -29,10 +32,14 @@ namespace ContentSystem.Models
         /// 用户分页
         /// </summary>
         public Paging<OrderModel> Paging { get; set; }
+        /// <summary>
+        /// 配送日历
+        /// </summary>
+        public List<SendInfo> SendInfoList { get; set; }
 
-       /// <summary>
-       /// 配送分页
-       /// </summary>
+        /// <summary>
+        /// 配送分页
+        /// </summary>
         public Paging<DeliveryModel> DeliveryPaging { get; set; }
 
         public string QueryName { get; set; }
