@@ -20,7 +20,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-12" style="height:20px;"></div>
-                             @*<div class="hr-line-dashed"></div>*@
+                            @*<div class="hr-line-dashed"></div>*@
                             <div class="col-sm-12">
                                 <div class="col-sm-4">
                                     商品名称：
@@ -58,7 +58,7 @@
                                     <th class="text-center">备注信息</th>
                                     <th class="text-center">开始配送日期</th>
                                     <th class="text-center">结束配送日期</th>
-                                    <th class="text-center">配送总天数</th> 
+                                    <th class="text-center">配送总天数</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -71,7 +71,7 @@
                                             <td class="text-center">@item.Fans_id</td>
                                             <td class="text-center">@item.Tid</td>
                                             <td class="text-center">@item.NickName</td>
-                                            <td class="text-center">@item.Fans_weixin_openid</td>     
+                                            <td class="text-center">@item.Fans_weixin_openid</td>
                                             <td class="text-center td-img">
                                                 @if (!string.IsNullOrEmpty(item.Avatar))
                                                 {
@@ -91,17 +91,20 @@
                                             <td class="text-center">@item.Created</td>
                                             <td class="text-center">@item.Pay_time</td>
                                             <td class="text-center">@item.Receiver_address</td>
-                                            <td class="text-center">@item.Shipping_type</td> 
+                                            <td class="text-center">@item.Shipping_type</td>
                                             <td class="text-center">@item.Taboo</td>
                                             <td class="text-center">@item.Status_str</td>
-                                            <td class="text-center">@item.Buyer_message</td> 
+                                            <td class="text-center">@item.Buyer_message</td>
+                                            <td class="text-center">@item.Start_send</td>
+                                            <td class="text-center">@item.End_send</td>
+                                            <td class="text-center">@item.Send_total</td>
                                             <td>
                                                 <a href="/Order/delay?tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;延期配送</a>
                                                 <a href="/Order/Detail?tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>
                                             </td>
                                         </tr>
-                                    }
-                                }
+                                                        }
+                                                    }
                             </tbody>
                         </table>
                     </div>

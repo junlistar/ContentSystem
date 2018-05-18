@@ -119,7 +119,7 @@ namespace ContentSystem.Service
                             var endCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
                             && m.Status == 0).OrderBy(m => m.Day).Skip(21).Take(1).FirstOrDefault();
                             newOrderEntity.End_send = endCalendar.Day.ToString();
-                            newOrderEntity.send_day = 22;
+                            newOrderEntity.Send_day = 22;
                             //添加配送表记录
                             AddSendInfo(newOrderEntity.Tid, payTime);
                         }
@@ -185,7 +185,7 @@ namespace ContentSystem.Service
                         var endCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
                         && m.Status == 0).OrderBy(m => m.Day).Skip(21).Take(1).FirstOrDefault();
                         newOrderEntity.End_send = endCalendar.Day.ToString();
-                        newOrderEntity.send_day = 22;
+                        newOrderEntity.Send_day = 22;
                         //添加配送表记录
                         AddSendInfo(newOrderEntity.Tid, payTime);
 
@@ -194,7 +194,7 @@ namespace ContentSystem.Service
                     {
                         newOrderEntity.Start_send = "";
                         newOrderEntity.End_send = "";
-                        newOrderEntity.send_day = 0;
+                        newOrderEntity.Send_day = 0;
                     }
 
                     //配送总天数默认为22天。

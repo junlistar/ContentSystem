@@ -179,16 +179,31 @@ namespace ContentSystem.Business
             string whereStr = "";
 
             string selsql = @"select  
-Fans_id as Fans_id , Tid as Tid, NickName as NickName, a.Fans_weixin_openid as Fans_weixin_openid, Avatar , Fetcher_name , Fetcher_mobile,Title,
+Fans_id as Fans_id , a.Tid as Tid, NickName as NickName, a.Fans_weixin_openid as Fans_weixin_openid, Avatar , Fetcher_name , Fetcher_mobile,Title,
 sku_id = STUFF((SELECT ',' + CONVERT(NVARCHAR(50), sku_id) FROM
 OrderDetail WHERE Tid = a.tid FOR XML PATH('')),1,1,'') , 
-Total_fee, Payment, Created , Pay_time, Receiver_address,Shipping_type , 
+Total_fee, Payment, Created , Pay_time, Receiver_address
+, (case  Shipping_type 
+when 'express' then '快递'  
+when 'fetch' then '到店自提'
+when 'local' then '同城配送'
+else '无'
+end) as Shipping_type
+, 
 Taboo = STUFF((SELECT ',' + Taboo FROM
 OrderDetail WHERE Tid = a.tid FOR XML PATH('')),1,1,'') ,   
 Status_str ,
-Buyer_message
+Buyer_message,
+a.Start_send,
+a.End_send,
+ISNULL(t.Send_day,0),
+ISNULL(t.Send_total,0)
 from [Order] a
-left join UserInfo u on a.Fans_weixin_openid = u.Fans_weixin_openid where 1=1 {0}";
+left join UserInfo u on a.Fans_weixin_openid = u.Fans_weixin_openid 
+left join (select Tid,COUNT(*) as Send_day,SUM(Send_num) as Send_total from SendInfo 
+group by Send_num,Tid) t on a.Tid=t.Tid
+where 1=1
+ {0}";
 
             // orderNo
             if (!string.IsNullOrEmpty(orderNo))

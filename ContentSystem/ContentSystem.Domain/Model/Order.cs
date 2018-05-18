@@ -38,7 +38,7 @@ namespace ContentSystem.Domain.Model
         public virtual string Shop_address { get; set; }
         public virtual string Start_send { get; set; }
         public virtual string End_send { get; set; }
-        public virtual int send_day { get; set; }
+        public virtual int Send_day { get; set; }
 
 
     }
@@ -136,5 +136,21 @@ namespace ContentSystem.Domain.Model
         /// 备注信息
         /// </summary>
         public string Buyer_message { get; set; }
+        /// <summary>
+        /// 开始配送日期
+        /// </summary>
+        public  string Start_send { get; set; }
+        /// <summary>
+        /// 结束配送日期
+        /// </summary>
+        public  string End_send { get; set; }
+        /// <summary>
+        /// 配送总天数
+        /// </summary>
+        public  int Send_day { get; set; }
+        /// <summary>
+        /// 配送总份数
+        /// </summary>
+        public int Send_total { get; set; }
     }
 }
