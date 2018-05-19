@@ -51,6 +51,9 @@ namespace ContentSystem.Domain.Model
         public string Phone { get; set; }
         public int Num { get; set; }
         public string Sign { get; set; }
+        public string FansId { get; set; }
+        public string ShopName { get; set; }
+        public string Taboo { get; set; }
 
 
     }

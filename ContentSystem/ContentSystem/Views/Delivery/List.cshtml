@@ -28,11 +28,14 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-center">订单id</th>
+                                    <th class="text-center">用户编号</th>
+                                    <th class="text-center">网点</th>
+                                    <th class="text-center">订单</th>
                                     <th class="text-center">订单标题</th>
                                     <th class="text-center">收货人</th>
                                     <th class="text-center">联系电话</th>
                                     <th class="text-center">数量</th>
+                                    <th class="text-center">忌口</th>
                                     <th class="text-center">签名</th>
                                     <th>操作</th>
                                 </tr>
@@ -43,11 +46,14 @@
                                     foreach (var item in Model.DeliveryPaging.Items)
                                     {
                                         <tr>
+                                            <td class="text-center">@item.FansId</td>
+                                            <td class="text-center">@item.ShopName</td>
                                             <td class="text-center">@item.Tid</td>
                                             <td class="text-center">@item.Title</td>
                                             <td class="text-center">@item.UserName</td>
                                             <td class="text-center">@item.Phone</td>
                                             <td class="text-center">@item.Num</td>
+                                            <td class="text-center">@item.Taboo</td>
                                             <td class="text-center">@item.Sign</td>
                                             <td> 
                                                 <a href="/Order/SendInfoList?Tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>

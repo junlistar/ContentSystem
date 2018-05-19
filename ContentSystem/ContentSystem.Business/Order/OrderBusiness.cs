@@ -122,10 +122,12 @@ namespace ContentSystem.Business
                 whereStr += " and o.title  like '%" + title + "%'";
             }
 
-            string selsql = @" select s.tid as Tid,o.title as Title,Fetcher_name as UserName,Fetcher_mobile as Phone,s.Send_num as Num
+            string selsql = @"  select s.tid as Tid,o.title as Title,Fetcher_name as UserName,Fetcher_mobile as Phone,s.Send_num as Num,u.Fans_id as FansId,o.Shop_name as ShopName,
+ Taboo = STUFF((SELECT ',' + Taboo FROM
+OrderDetail WHERE Tid = o.tid FOR XML PATH('')),1,1,'') 
    from [SendInfo] s left join[Order] o left join UserInfo u on o.Fans_weixin_openid = u.Fans_weixin_openid
    on s.tid = o.Tid
-   where 1=1 {0} and title like '%包月配送%'";
+   where 1=1 and title like '%包月配送%'  {0} ";
 
             selsql = string.Format(selsql, whereStr);
 
