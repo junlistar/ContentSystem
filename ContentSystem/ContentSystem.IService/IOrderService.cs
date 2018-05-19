@@ -9,7 +9,12 @@ namespace ContentSystem.IService
 {
     public interface IOrderService
     {
-
+        /// <summary>
+        /// 查询实体
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Order GetById(int id);
 
         /// <summary>
         /// 添加实体

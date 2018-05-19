@@ -16,13 +16,18 @@ namespace ContentSystem.Controllers
 
         IOrderService _orderService;
         IUserInfoService _userService;
+        ISendInfoService _sendInfoService;
+        ICalendarInfoService _calendarInfoService;
 
 
         public OrderController(IOrderService orderService,
-             IUserInfoService userService)
+             IUserInfoService userService, ISendInfoService sendInfoService,
+             ICalendarInfoService calendarInfoServic)
         {
             _orderService = orderService;
             _userService = userService;
+            _sendInfoService = sendInfoService;
+            _calendarInfoService = calendarInfoServic;
         }
 
         /// <summary>
@@ -48,9 +53,9 @@ namespace ContentSystem.Controllers
         }
 
         public ActionResult SendInfoList(OrderVM vm, int pn = 1)
-        { 
+        {
             var list = _orderService.GetSendInfoList(vm.Tid);
-           
+
             vm.SendInfoList = list;
 
             return View(vm);
@@ -78,43 +83,140 @@ namespace ContentSystem.Controllers
         /// <param name="inputstr"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult Delay(string tid, string inputstr)
+        public JsonResult Delay(int orderid, string inputstr)
         {
             try
-            {  
-                if (string.IsNullOrWhiteSpace(inputstr) || string.IsNullOrWhiteSpace(tid))
+            {
+                if (string.IsNullOrWhiteSpace(inputstr) || orderid <= 0)
                 {
                     return Json(new { Status = Successed.Error }, JsonRequestBehavior.AllowGet);
                 }
+
+                //延期、调整天数
                 int tmp_day = 0;
                 if (int.TryParse(inputstr, out tmp_day))
                 {
                     //如果是数字，赠送处理
                     if (tmp_day > 0)
                     {
-                        //todo:赠送处理
+                        #region 赠送处理
 
+                        //获取订单对象
+                        var orderModel = _orderService.GetById(orderid);
+                        if (orderModel != null)
+                        {
+                            //获取订单 最后截止发货日期，用于赠送延期修改
+                            int endTime = Convert.ToInt32(DateTime.Parse(orderModel.End_send).ToString("yyyyMMdd"));
+                             
+                            //修改发货表发货日期数据：新增对应的赠送日期
+                            var calendarList = _calendarInfoService.GetAll().Where(m => m.Day > endTime
+                       && m.Status == 0).OrderBy(m => m.Day).Take(tmp_day);
+                            foreach (CalendarInfo item in calendarList)
+                            {
+                                _sendInfoService.Insert(new SendInfo()
+                                {
+                                    Tid = orderModel.Tid,
+                                    Is_send = 1,
+                                    Send_num = 1,
+                                    Send_time = DateTime.ParseExact(item.Day.ToString(), "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture).ToString("yyyy-MM-dd")
+                                });
+                            } 
+                            //修改订单表 发货开始，结束日期，配送天数
+                            orderModel.Send_day += tmp_day;
+
+                            var endCalendar = _calendarInfoService.GetAll().Where(m => m.Day > endTime
+                        && m.Status == 0).OrderBy(m => m.Day).Skip(tmp_day - 1).Take(1).FirstOrDefault();
+                            orderModel.End_send = endCalendar.Day.ToString();
+
+                            _orderService.Update(orderModel);
+                        }
+                        else
+                        {
+                            return Json(new { Status = Successed.Error }, JsonRequestBehavior.AllowGet);
+                        }
+
+                        #endregion
+
+                    }
+                    else
+                    {
+                        return Json(new { Status = Successed.Error }, JsonRequestBehavior.AllowGet);
                     }
                 }
                 else
                 {
                     //如果不是数字
                     var tmp_array = inputstr.Split(',');
+
+                    #region 此操作暂时用不到，只做验证数据处理
+
                     List<DateTime> dtlist = new List<DateTime>();
                     foreach (var item in tmp_array)
                     {
                         dtlist.Add(Convert.ToDateTime(item));
                     }
                     //排序
-                    dtlist.Sort();
-                    //todo:延期处理
+                    // dtlist.Sort();
+
+                    #endregion
+
+                    #region 延期处理
+
+                    //获取订单对象
+                    var orderModel = _orderService.GetById(orderid);
+                    if (orderModel != null)
+                    {
+                        //获取订单 最后截止发货日期，用于赠送延期修改
+                        int endTime = Convert.ToInt32(DateTime.Parse(orderModel.End_send).ToString("yyyyMMdd"));
+                        //获取该订单的发货日期列表
+                        var sendInfoList = _sendInfoService.GetAll().Where(p => p.Tid == orderModel.Tid).ToList();
+                          
+                        //获取设置不发货的日期对象
+                        var editDayList = sendInfoList.Where(p => tmp_array.Contains(p.Send_time));
+
+                        //设置不发货
+                        foreach (var item in editDayList)
+                        {
+                            item.Is_send = 0;
+                            _sendInfoService.Update(item);
+
+                            //统计延期天数
+                            tmp_day++;
+                        }
+  
+                        //修改发货表发货日期数据：新增对应的赠送日期
+                        var calendarList = _calendarInfoService.GetAll().Where(m => m.Day > endTime
+                   && m.Status == 0).OrderBy(m => m.Day).Take(tmp_day);
+                        foreach (CalendarInfo item in calendarList)
+                        {
+                            _sendInfoService.Insert(new SendInfo()
+                            {
+                                Tid = orderModel.Tid,
+                                Is_send = 1,
+                                Send_num = 1,
+                                Send_time = DateTime.ParseExact(item.Day.ToString(), "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture).ToString("yyyy-MM-dd")
+                            });
+                        }
+
+                        //修改订单对象
+                        var endCalendar = _calendarInfoService.GetAll().Where(m => m.Day > endTime
+                       && m.Status == 0).OrderBy(m => m.Day).Skip(tmp_day - 1).Take(1).FirstOrDefault();
+                        orderModel.End_send = endCalendar.Day.ToString();
+
+                        _orderService.Update(orderModel);
 
 
+                        #endregion
+                    }
+                    else
+                    {
+                        return Json(new { Status = Successed.Error }, JsonRequestBehavior.AllowGet);
+                    } 
                 }
 
                 return Json(new { Status = Successed.Ok }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Json(new { Status = Successed.Error }, JsonRequestBehavior.AllowGet);
             }

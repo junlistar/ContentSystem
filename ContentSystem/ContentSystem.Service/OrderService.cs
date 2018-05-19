@@ -21,6 +21,11 @@ namespace ContentSystem.Service
             _userBiz = userBiz;
         }
 
+        public Order GetById(int id)
+        {
+            return _userBiz.GetById(id);
+        }
+
         public Order Insert(Order model)
         {
             return _userBiz.Insert(model);

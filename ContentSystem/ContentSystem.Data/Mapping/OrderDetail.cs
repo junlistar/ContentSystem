@@ -15,7 +15,7 @@ namespace ContentSystem.Data.Mapping
         public OrderDetailMap()
         {
             this.ToTable("OrderDetail");
-            this.HasKey(m => m.Tid); 
+            this.HasKey(m => m.OrderDetailId); 
             this.Property(m => m.OrderDetailId)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             this.Property(m => m.Num);

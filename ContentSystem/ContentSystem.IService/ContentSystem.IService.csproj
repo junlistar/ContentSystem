@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISendInfoService.cs" />
     <Compile Include="IGrabDataService.cs" />
     <Compile Include="IOrderDetailService.cs" />
     <Compile Include="ISystemConfigService.cs" />

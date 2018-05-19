@@ -111,7 +111,7 @@
                                             <td class="text-center">
                                                 <input type="text" class="form-control txt-calendar" value=""><br>
                                                 <button  class="btn btn-success btn-delay"><i class="fa fa-check padding-right-4"></i>&nbsp;延期配送</button> 
-                                                <button  class="btn btn-success btn-savedata" data-tid="@item.Tid"><i class="fa fa-check padding-right-4"></i>&nbsp;确定</button>
+                                                <button  class="btn btn-success btn-savedata" data-oid="@item.OrderId"><i class="fa fa-check padding-right-4"></i>&nbsp;确定</button>
                                             </td>
                                             <td>
                                                 <a href="/Order/SendInfoList?Tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>
@@ -149,10 +149,10 @@
             $(".btn-savedata").click(function () {
                 //console.log($(this).prev(".txt-calendar"));
                 var _inputstr = $(this).parent().find(".txt-calendar").val();
-                var _tid = $(this).data("tid");
+                var _oid = $(this).data("oid");
                 if (_val != "") {
                     var dataArr = {
-                        tid: _tid,
+                        orderid: _oid,
                         inputstr: _inputstr
                     };
                     $.post('/Order/Delay', dataArr, function (data) {

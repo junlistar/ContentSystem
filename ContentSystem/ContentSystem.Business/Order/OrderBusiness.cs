@@ -38,7 +38,10 @@ namespace ContentSystem.Business
             _repoOrderDetail = repoOrderDetail;
             _repoCalendarInfo = repoCalendarInfol;
         }
-
+        public Order GetById(int id)
+        {
+            return this._repoOrder.GetById(id);
+        }
         public Order Insert(Order model)
         {
             return this._repoOrder.Insert(model);
@@ -180,7 +183,7 @@ OrderDetail WHERE Tid = o.tid FOR XML PATH('')),1,1,'')
 
             string whereStr = "";
 
-            string selsql = @"select  
+            string selsql = @"select  OrderId,
 Fans_id as Fans_id , a.Tid as Tid, NickName as NickName, a.Fans_weixin_openid as Fans_weixin_openid, Avatar , Fetcher_name , Fetcher_mobile,Title,
 sku_id = STUFF((SELECT ',' + CONVERT(NVARCHAR(50), sku_id) FROM
 OrderDetail WHERE Tid = a.tid FOR XML PATH('')),1,1,'') , 

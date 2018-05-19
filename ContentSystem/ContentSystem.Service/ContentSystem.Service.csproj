@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SendInfoService.cs" />
     <Compile Include="GrabDataService.cs" />
     <Compile Include="HttpHelp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

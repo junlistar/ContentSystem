@@ -20,30 +20,23 @@
                         <form action="/Order/List" method="get">
                             <div class="col-sm-12">
                                 <div class="col-sm-4">
-                                    订单号码：
-                                    <input type="text" name="QueryOrderNo" class="form-control inline" style="width:70%;" placeholder="请输入查询订单号" value="@(Model.QueryOrderNo ?? "")">
+                                    点击同步订单数据：
+
                                 </div>
-                                <div class="col-sm-4">
-                                    手机号码：
-                                    <input type="text" name="QueryMobile" class="form-control inline" style="width:70%;" placeholder="请输入查询手机号" value="@(Model.QueryMobile ?? "")">
-                                </div>
+                                <button class="btn btn-success btn-initorder"><i class="fa fa-check padding-right-4"></i>&nbsp;同步订单</button>
                             </div>
                             <div class="col-sm-12" style="height:20px;"></div>
-                            @*<div class="hr-line-dashed"></div>*@
+                            <div class="hr-line-dashed"></div>
                             <div class="col-sm-12">
                                 <div class="col-sm-4">
-                                    商品名称：
-                                    <input type="text" name="QueryProductName" class="form-control inline" style="width:70%;" placeholder="请输入查询商品名称" value="@(Model.QueryProductName ?? "")">
+                                    输入年份同步假期数据：
+                                    <input type="text" name="txtYear" id="txtYear" class="form-control inline" style="width:70%;" placeholder="请输入年份，如：2018" value="@DateTime.Now.Year">
                                 </div>
-                                <div class="col-sm-4">
-                                    商品SKU：
-                                    <input type="text" name="QuerySku" class="form-control inline" style="width:70%;" placeholder="请输入查询商品SKU" value="@(Model.QuerySku ?? "")">
-                                </div>
-                                <button type="submit" class="btn btn-info">搜索</button>
+                                <button class="btn btn-success btn-inityear"><i class="fa fa-check padding-right-4"></i>&nbsp;同步假期数据</button>
                             </div>
                         </form>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -53,31 +46,37 @@
     <script src="/Scripts/jquery-asDatepicker.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            //$(".txt-calendar").asDatepicker({ mode: 'multiple', calendars: '1' });
-            $(".btn-delay").click(function () { 
-                //console.log($(this).prev(".txt-calendar"));
-                $(this).prev().prev().asDatepicker({ mode: 'multiple', calendars: '1' });
-                
-            })
 
-            $(".btn-savedata").click(function () {
-                //console.log($(this).prev(".txt-calendar"));
-                var _inputstr = $(this).parent().find(".txt-calendar").val();
-                var _tid = $(this).data("tid");
-                if (_val != "") {
+
+            $(".btn-inityear").click(function () {
+                var _year = $("#txtYear").val();
+                if (_year != "") {
                     var dataArr = {
-                        tid: _tid,
-                        inputstr: _inputstr
+                        year: _year,
                     };
-                    $.post('/Order/Delay', dataArr, function (data) {
+                    $.post('/GrabData/InitYear', dataArr, function (data) {
                         if (data.Status == 200) {
                             swal("提示", "操作成功");
                         }
                         if (data.Status == 202) {
                             swal("提示", "操作失败");
-                        } 
+                        }
                     }).complete(function () { window.parent.hideModal(); });
                 }
+            })
+            $(".btn-initorder").click(function () {
+
+                var dataArr = {
+                };
+                $.post('/GrabData/GrabOrderData', dataArr, function (data) {
+                    if (data.Status == 200) {
+                        swal("提示", "操作成功");
+                    }
+                    if (data.Status == 202) {
+                        swal("提示", "操作失败");
+                    }
+                }).complete(function () { window.parent.hideModal(); });
+            }
             })
         });
     </script>

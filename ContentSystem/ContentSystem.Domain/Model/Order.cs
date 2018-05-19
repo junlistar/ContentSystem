@@ -66,6 +66,10 @@ namespace ContentSystem.Domain.Model
     public class OrderModel : IAggregateRoot
     {
         /// <summary>
+        /// 主键
+        /// </summary>
+        public int OrderId { get; set; }
+        /// <summary>
         /// 用户编号
         /// </summary>
         public string Fans_id { get; set; }

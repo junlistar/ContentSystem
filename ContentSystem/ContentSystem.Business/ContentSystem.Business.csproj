@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SendInfo\SendInfoBusiness.cs" />
+    <Compile Include="SendInfo\ISendInfoBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OrderDetail\IOrderDetailBusiness.cs" />
     <Compile Include="OrderDetail\OrderDetailBusiness.cs" />

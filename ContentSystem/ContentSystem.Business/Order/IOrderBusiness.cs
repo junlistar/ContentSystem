@@ -9,9 +9,10 @@ namespace ContentSystem.Business
 {
     public interface IOrderBusiness
     {
-         
-        Order Insert(Order model);
 
+        Order GetById(int id);
+
+        Order Insert(Order model); 
 
         /// <summary>
         /// 修改实体
