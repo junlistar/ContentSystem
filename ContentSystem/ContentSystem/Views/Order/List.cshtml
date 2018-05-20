@@ -114,7 +114,9 @@
                                                 <button  class="btn btn-success btn-savedata" data-oid="@item.OrderId"><i class="fa fa-check padding-right-4"></i>&nbsp;确定</button>
                                             </td>
                                             <td>
-                                                <a href="/Order/SendInfoList?Tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>
+                                                @*<a href="/Order/SendInfoList?Tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>*@
+
+                                                <button onclick="iframe('发货日期','/Order/SendInfoList?Tid=@item.Tid')" class="btn btn-success">查看发货日期</button> 
                                             </td>
                                         </tr>
                                     }
@@ -138,7 +140,11 @@
 @section script{
     <script src="/Scripts/jquery-asDatepicker.js"></script>
     <script type="text/javascript">
+        
+         
+
         $(document).ready(function () {
+             
             //$(".txt-calendar").asDatepicker({ mode: 'multiple', calendars: '1' });
             $(".btn-delay").click(function () { 
                 //console.log($(this).prev(".txt-calendar"));

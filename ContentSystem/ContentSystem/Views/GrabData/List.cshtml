@@ -17,24 +17,25 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
                     <div class="row" style="padding:10px 10px;">
-                        <form action="/Order/List" method="get">
-                            <div class="col-sm-12">
-                                <div class="col-sm-4">
-                                    点击同步订单数据：
+                        
+                            <div class="col-sm-12"> 
+                                <div class="col-sm-12">
+                                    <label style="width:150px;">点击同步订单数据： </label>
 
+                                    <button class="btn btn-success btn-initorder"><i class="fa fa-check padding-right-4"></i>&nbsp;同步订单</button>
+                                    <div class="hr-line-dashed"></div>
                                 </div>
-                                <button class="btn btn-success btn-initorder"><i class="fa fa-check padding-right-4"></i>&nbsp;同步订单</button>
-                            </div>
+                                </div>
                             <div class="col-sm-12" style="height:20px;"></div>
-                            <div class="hr-line-dashed"></div>
                             <div class="col-sm-12">
-                                <div class="col-sm-4">
-                                    输入年份同步假期数据：
-                                    <input type="text" name="txtYear" id="txtYear" class="form-control inline" style="width:70%;" placeholder="请输入年份，如：2018" value="@DateTime.Now.Year">
+                                <div class="col-sm-12">
+                                    输入年份同步假期数据：<br>
+                                    <input type="text" name="txtYear" id="txtYear" class="form-control inline" style="width:150px;" placeholder="请输入年份，如：2018" value="@DateTime.Now.Year">
+
+                                    <button class="btn btn-success btn-inityear"><i class="fa fa-check padding-right-4"></i>&nbsp;同步假期数据</button>
                                 </div>
-                                <button class="btn btn-success btn-inityear"><i class="fa fa-check padding-right-4"></i>&nbsp;同步假期数据</button>
                             </div>
-                        </form>
+                       
                     </div>
 
                 </div>
@@ -42,13 +43,14 @@
         </div>
     </div>
 </div>
-@section script{
-    <script src="/Scripts/jquery-asDatepicker.js"></script>
+@section script{ 
     <script type="text/javascript">
         $(document).ready(function () {
 
 
             $(".btn-inityear").click(function () {
+
+                console.log("in")
                 var _year = $("#txtYear").val();
                 if (_year != "") {
                     var dataArr = {
@@ -65,7 +67,8 @@
                 }
             })
             $(".btn-initorder").click(function () {
-
+                swal("提示", "正在执行同步数据操作，请等待！");
+                console.log("in1")
                 var dataArr = {
                 };
                 $.post('/GrabData/GrabOrderData', dataArr, function (data) {
@@ -76,7 +79,6 @@
                         swal("提示", "操作失败");
                     }
                 }).complete(function () { window.parent.hideModal(); });
-            }
             })
         });
     </script>
