@@ -106,8 +106,9 @@ namespace ContentSystem.Controllers
                         if (orderModel != null)
                         {
                             //获取订单 最后截止发货日期，用于赠送延期修改
-                            int endTime = Convert.ToInt32(DateTime.Parse(orderModel.End_send).ToString("yyyyMMdd"));
-                             
+                            int endTime = Convert.ToInt32(DateTime.ParseExact(orderModel.End_send, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture).ToString("yyyyMMdd"));
+                            //int endTime = Convert.ToInt32(DateTime.Parse(orderModel.End_send).ToString("yyyyMMdd"));
+
                             //修改发货表发货日期数据：新增对应的赠送日期
                             var calendarList = _calendarInfoService.GetAll().Where(m => m.Day > endTime
                        && m.Status == 0).OrderBy(m => m.Day).Take(tmp_day);
@@ -167,7 +168,7 @@ namespace ContentSystem.Controllers
                     if (orderModel != null)
                     {
                         //获取订单 最后截止发货日期，用于赠送延期修改
-                        int endTime = Convert.ToInt32(DateTime.Parse(orderModel.End_send).ToString("yyyyMMdd"));
+                        int endTime = Convert.ToInt32(DateTime.ParseExact(orderModel.End_send, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture).ToString("yyyyMMdd"));
                         //获取该订单的发货日期列表
                         var sendInfoList = _sendInfoService.GetAll().Where(p => p.Tid == orderModel.Tid).ToList();
                           
