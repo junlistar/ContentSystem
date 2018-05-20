@@ -10,7 +10,7 @@ namespace ContentSystem.IService
     public interface ISendInfoService
     {
 
-  
+
         /// <summary>
         /// 添加实体
         /// </summary>
@@ -30,12 +30,14 @@ namespace ContentSystem.IService
         /// <param name="model"></param>
         /// <returns></returns>
         void Delete(SendInfo model);
-         
+
         /// <summary>
         /// 获取所有
         /// </summary>
         /// <returns></returns>
         List<SendInfo> GetAll();
-         
-        }
+
+        SendInfo GetById(int id);
+    }
+
 }

@@ -153,6 +153,7 @@
             })
 
             $(".btn-savedata").click(function () {
+                
                 //console.log($(this).prev(".txt-calendar"));
                 var _inputstr = $(this).parent().find(".txt-calendar").val();
                 var _oid = $(this).data("oid");
@@ -162,6 +163,7 @@
                         inputstr: _inputstr
                     };
                     $.post('/Order/Delay', dataArr, function (data) {
+                        
                         if (data.Status == 200) {
                             swal("提示", "操作成功");
                         }
