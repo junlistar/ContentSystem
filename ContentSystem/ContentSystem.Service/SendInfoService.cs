@@ -1,8 +1,9 @@
 ﻿using ContentSystem.Business;
 using ContentSystem.IService;
 using System;
-using System.Collections.Generic; 
-using ContentSystem.Domain.Model; 
+using System.Collections.Generic;
+using ContentSystem.Domain.Model;
+using ContentSystem.Core.Data;
 
 namespace ContentSystem.Service
 {
@@ -13,9 +14,12 @@ namespace ContentSystem.Service
         /// </summary>
         private ISendInfoBusiness _sendInfoBiz;
 
-        public SendInfoService(ISendInfoBusiness sendInfoBiz)
+        private IRepository<SendInfo> _repoSendInfo;
+
+        public SendInfoService(ISendInfoBusiness sendInfoBiz, IRepository<SendInfo> repoSendInfo)
         {
             _sendInfoBiz = sendInfoBiz;
+            _repoSendInfo = repoSendInfo;
         }
 
         public SendInfo Insert(SendInfo model)
@@ -51,6 +55,10 @@ namespace ContentSystem.Service
         {
             return _sendInfoBiz.GetAll();
         }
-         
+
+        public SendInfo GetById(int id)
+        {
+            return _repoSendInfo.GetById(id);
+        }
     }
 }

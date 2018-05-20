@@ -221,5 +221,22 @@ namespace ContentSystem.Controllers
                 return Json(new { Status = Successed.Error }, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+
+        [HttpPost]
+        public JsonResult SendSave(int sendInfoId, int is_send, int send_num)
+        {
+            //先获取实体，然后修改
+            var model = _sendInfoService.GetById(sendInfoId);
+            if (model!=null&&model.SendInfoId!=0)
+            {
+                model.Send_num = send_num;
+                model.Is_send = is_send;
+                _sendInfoService.Update(model);
+            }
+
+            return Json(new { Status = Successed.Ok }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

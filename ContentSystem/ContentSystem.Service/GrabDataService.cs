@@ -112,7 +112,7 @@ namespace ContentSystem.Service
                             //添加开始配送时间，结束配送时间，以及配送总天数
                             //开始配送时间，默认为订单支付成功后的一个工作日
                             int payTime = Convert.ToInt32(DateTime.Parse(item.pay_time).ToString("yyyyMMdd"));
-                            var startCalendar = _repoCalendarInfo.Table.Where(m => m.Day> payTime
+                            var startCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
                             && m.Status == 0).OrderBy(m => m.Day).FirstOrDefault();
                             newOrderEntity.Start_send = startCalendar.Day.ToString();
                             //结束配送时间，默认为从开始配送时间往后算22个工作日
@@ -121,7 +121,7 @@ namespace ContentSystem.Service
                             newOrderEntity.End_send = endCalendar.Day.ToString();
                             newOrderEntity.Send_day = 22;
                             //添加配送表记录
-                            AddSendInfo(newOrderEntity.Tid, payTime);
+                            AddSendInfo(newOrderEntity, payTime);
                         }
                     }
 
@@ -187,7 +187,7 @@ namespace ContentSystem.Service
                         newOrderEntity.End_send = endCalendar.Day.ToString();
                         newOrderEntity.Send_day = 22;
                         //添加配送表记录
-                        AddSendInfo(newOrderEntity.Tid, payTime);
+                        AddSendInfo(newOrderEntity, payTime);
 
                     }
                     else
@@ -243,19 +243,23 @@ namespace ContentSystem.Service
             OrderUserDetail(openIdList, token);
         }
 
-        private void AddSendInfo(string tid, int payTime)
+        private void AddSendInfo(Order o, int payTime)
         {
-            var calendarList = _repoCalendarInfo.Table.Where(m =>m.Day > payTime
+            var calendarList = _repoCalendarInfo.Table.Where(m => m.Day > payTime
                         && m.Status == 0).OrderBy(m => m.Day).Take(22);
             foreach (CalendarInfo item in calendarList)
             {
                 _repoSendInfo.Insert(new SendInfo()
                 {
-                    Tid = tid,
+                    Tid = o.Tid,
                     Is_send = 1,
                     Send_num = 1,
                     Send_time = DateTime.ParseExact(item.Day.ToString(), "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture).ToString("yyyy-MM-dd")
-                }); 
+                });
+                if (!o.Title.Contains("包月"))
+                {
+                    return;
+                }
             }
         }
 
