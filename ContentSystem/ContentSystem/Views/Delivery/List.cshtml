@@ -56,7 +56,8 @@
                                             <td class="text-center">@item.Taboo</td>
                                             <td class="text-center">@item.Sign</td>
                                             <td> 
-                                                <a href="/Order/SendInfoList?Tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>
+                                                <button onclick="iframe('发货日期','/Order/SendInfoList?Tid=@item.Tid')" class="btn btn-success">查看发货日期</button> 
+                                                @*<a href="/Order/SendInfoList?Tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>*@
                                             </td>
                                         </tr>
                                     }

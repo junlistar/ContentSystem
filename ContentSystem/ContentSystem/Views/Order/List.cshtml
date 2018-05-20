@@ -13,12 +13,12 @@
 @model ContentSystem.Models.OrderVM
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
-        <div class="col-sm-12">
-            <div class="ibox float-e-margins">
+        <div class="" style="overflow-x:scroll;">@*col-sm-12*@
+            <div class="ibox float-e-margins"  style="width:2700px;">
                 <div class="ibox-content">
                     <div class="row" style="padding:10px 10px;">
                         <form action="/Order/List" method="get">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="col-sm-4">
                                     订单号码：
                                     <input type="text" name="QueryOrderNo" class="form-control inline" style="width:70%;" placeholder="请输入查询订单号" value="@(Model.QueryOrderNo ?? "")">
@@ -30,7 +30,7 @@
                             </div>
                             <div class="col-sm-12" style="height:20px;"></div>
                             @*<div class="hr-line-dashed"></div>*@
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="col-sm-4">
                                     商品名称：
                                     <input type="text" name="QueryProductName" class="form-control inline" style="width:70%;" placeholder="请输入查询商品名称" value="@(Model.QueryProductName ?? "")">
@@ -44,7 +44,7 @@
                         </form>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover">
+                        <table class="table table-bordered table-hover" @*style="width:2500px;"*@>
                             <thead>
                                 <tr>
                                     <th class="text-center">用户编号</th>
@@ -54,16 +54,16 @@
                                     <th class="text-center">头像</th>
                                     <th class="text-center">姓名</th>
                                     <th class="text-center">电话</th>
-                                    <th class="text-center">商品名称</th>
+                                    <th class="text-center" style="width:150px;">商品名称</th>
                                     <th class="text-center">商品sku</th>
                                     <th class="text-center">商品价格</th>
                                     <th class="text-center">实际支付</th>
                                     <th class="text-center">下单时间</th>
                                     <th class="text-center">付款时间</th>
                                     <th class="text-center">收货地址</th>
-                                    <th class="text-center">配送方式</th>
+                                    <th class="text-center" style="width:100px;">配送方式</th>
                                     <th class="text-center">忌口水果</th>
-                                    <th class="text-center">订单状态</th>
+                                    <th class="text-center" style="width:100px;">订单状态</th>
                                     <th class="text-center">备注信息</th>
                                     <th class="text-center">开始配送日期</th>
                                     <th class="text-center">结束配送日期</th>
