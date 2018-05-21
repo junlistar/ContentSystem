@@ -195,6 +195,8 @@ when 'local' then '同城配送'
 else '无'
 end) as Shipping_type
 , 
+Wx_no = STUFF((SELECT ',' + Wx_no FROM
+OrderDetail WHERE Tid = a.tid FOR XML PATH('')),1,1,'') ,   
 Taboo = STUFF((SELECT ',' + Taboo FROM
 OrderDetail WHERE Tid = a.tid FOR XML PATH('')),1,1,'') ,   
 Status_str ,

@@ -132,6 +132,10 @@ namespace ContentSystem.Domain.Model
         public string Shipping_type { get; set; }
 
         /// <summary>
+        /// 微信号码
+        /// </summary>
+        public string Wx_no { get; set; }
+        /// <summary>
         /// 忌口水果
         /// </summary>
         public string Taboo { get; set; }
@@ -146,15 +150,15 @@ namespace ContentSystem.Domain.Model
         /// <summary>
         /// 开始配送日期
         /// </summary>
-        public  string Start_send { get; set; }
+        public string Start_send { get; set; }
         /// <summary>
         /// 结束配送日期
         /// </summary>
-        public  string End_send { get; set; }
+        public string End_send { get; set; }
         /// <summary>
         /// 配送总天数
         /// </summary>
-        public  int Send_day { get; set; }
+        public int Send_day { get; set; }
         /// <summary>
         /// 配送总份数
         /// </summary>
