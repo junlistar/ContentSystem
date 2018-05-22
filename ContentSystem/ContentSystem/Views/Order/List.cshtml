@@ -63,13 +63,14 @@
                                     <th class="text-center">付款时间</th>
                                     <th class="text-center">收货地址</th>
                                     <th class="text-center" style="width:100px;">配送方式</th>
-                                 
+
                                     <th class="text-center">忌口水果</th>
                                     <th class="text-center" style="width:100px;">订单状态</th>
                                     <th class="text-center">备注信息</th>
                                     <th class="text-center">开始配送日期</th>
                                     <th class="text-center">结束配送日期</th>
                                     <th class="text-center">配送总天数</th>
+                                    <th class="text-center">配送总份数</th>
                                     <th>延期配送<br>赠送日期</th>
                                     <th>操作</th>
                                 </tr>
@@ -79,49 +80,50 @@
                                 {
                                     foreach (var item in Model.Paging.Items)
                                     {
-                                        <tr>
-                                            <td class="text-center">@item.Fans_id</td>
-                                            <td class="text-center">@item.Tid</td>
-                                            <td class="text-center">@item.NickName</td>
-                                            <td class="text-center">@item.Fans_weixin_openid</td>
-                                            <td class="text-center">@item.Wx_no</td>
-                                            <td class="text-center td-img">
-                                                @if (!string.IsNullOrEmpty(item.Avatar))
-                                                {
-                                                    <img src="@item.Avatar" class="fancy" href="@item.Avatar" data-fancybox-group="gallery" onerror="this.src = '/images/404image.png'">
-                                                }
-                                                else
-                                                {
-                                                    <img src="/images/404image.png">
-                                                }
-                                            </td>
-                                            <td class="text-center">@item.Fetcher_name</td>
-                                            <td class="text-center">@item.Fetcher_mobile</td>
-                                            <td class="text-center">@item.Title</td>
-                                            <td class="text-center">@item.sku_id</td>
-                                            <td class="text-center">@item.Total_fee</td>
-                                            <td class="text-center">@item.Payment</td>
-                                            <td class="text-center">@item.Created</td>
-                                            <td class="text-center">@item.Pay_time</td>
-                                            <td class="text-center">@item.Receiver_address</td>
-                                            <td class="text-center">@item.Shipping_type</td>
-                                            <td class="text-center">@item.Taboo</td>
-                                            <td class="text-center">@item.Status_str</td>
-                                            <td class="text-center">@item.Buyer_message</td>
-                                            <td class="text-center">@item.Start_send</td>
-                                            <td class="text-center">@item.End_send</td>
-                                            <td class="text-center">@item.Send_day</td>
-                                            <td class="text-center">
-                                                <input type="text" class="form-control txt-calendar" value=""><br>
-                                                <button  class="btn btn-success btn-delay"><i class="fa fa-check padding-right-4"></i>&nbsp;延期配送</button> 
-                                                <button  class="btn btn-success btn-savedata" data-oid="@item.OrderId"><i class="fa fa-check padding-right-4"></i>&nbsp;确定</button>
-                                            </td>
-                                            <td>
-                                                @*<a href="/Order/SendInfoList?Tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>*@
+                                <tr>
+                                    <td class="text-center">@item.Fans_id</td>
+                                    <td class="text-center">@item.Tid</td>
+                                    <td class="text-center">@item.NickName</td>
+                                    <td class="text-center">@item.Fans_weixin_openid</td>
+                                    <td class="text-center">@item.Wx_no</td>
+                                    <td class="text-center td-img">
+                                        @if (!string.IsNullOrEmpty(item.Avatar))
+                                        {
+                                            <img src="@item.Avatar" class="fancy" href="@item.Avatar" data-fancybox-group="gallery" onerror="this.src = '/images/404image.png'">
+                                        }
+                                        else
+                                        {
+                                            <img src="/images/404image.png">
+                                        }
+                                    </td>
+                                    <td class="text-center">@item.Fetcher_name</td>
+                                    <td class="text-center">@item.Fetcher_mobile</td>
+                                    <td class="text-center">@item.Title</td>
+                                    <td class="text-center">@item.sku_id</td>
+                                    <td class="text-center">@item.Total_fee</td>
+                                    <td class="text-center">@item.Payment</td>
+                                    <td class="text-center">@item.Created</td>
+                                    <td class="text-center">@item.Pay_time</td>
+                                    <td class="text-center">@item.Receiver_address</td>
+                                    <td class="text-center">@item.Shipping_type</td>
+                                    <td class="text-center">@item.Taboo</td>
+                                    <td class="text-center">@item.Status_str</td>
+                                    <td class="text-center">@item.Buyer_message</td>
+                                    <td class="text-center">@item.Start_send</td>
+                                    <td class="text-center">@item.End_send</td>
+                                    <td class="text-center">@item.Send_day</td>
+                                    <td class="text-center">@item.Send_total</td>
+                                    <td class="text-center">
+                                        <input type="text" class="form-control txt-calendar" value=""><br>
+                                        <button class="btn btn-success btn-delay"><i class="fa fa-check padding-right-4"></i>&nbsp;延期配送</button>
+                                        <button class="btn btn-success btn-savedata" data-oid="@item.OrderId"><i class="fa fa-check padding-right-4"></i>&nbsp;确定</button>
+                                    </td>
+                                    <td>
+                                        @*<a href="/Order/SendInfoList?Tid=@item.Tid" class="btn btn-info"><i class="fa fa-paste padding-right-4"></i>&nbsp;查看发货日期</a>*@
 
-                                                <button onclick="iframe('发货日期','/Order/SendInfoList?Tid=@item.Tid')" class="btn btn-success">查看发货日期</button> 
-                                            </td>
-                                        </tr>
+                                        <button onclick="iframe('发货日期','/Order/SendInfoList?Tid=@item.Tid')" class="btn btn-success">查看发货日期</button>
+                                    </td>
+                                </tr>
                                     }
                                 }
                             </tbody>

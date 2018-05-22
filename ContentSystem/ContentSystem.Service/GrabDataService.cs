@@ -111,6 +111,8 @@ namespace ContentSystem.Service
                         {
                             //添加开始配送时间，结束配送时间，以及配送总天数
                             //开始配送时间，默认为订单支付成功后的一个工作日
+                            //计算本订单的配送总天数
+                            int day = 22;
                             int payTime = Convert.ToInt32(DateTime.Parse(item.pay_time).ToString("yyyyMMdd"));
                             var startCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
                             && m.Status == 0).OrderBy(m => m.Day).FirstOrDefault();
@@ -119,9 +121,14 @@ namespace ContentSystem.Service
                             var endCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
                             && m.Status == 0).OrderBy(m => m.Day).Skip(21).Take(1).FirstOrDefault();
                             newOrderEntity.End_send = endCalendar.Day.ToString();
-                            newOrderEntity.Send_day = 22;
+                            if (item.payment == Decimal.Parse("1.00") || item.orders[0].outer_sku_id == "0000012" || item.orders[0].outer_sku_id == "0000002")
+                            {
+                                day = 1;
+                            }
+
+                            newOrderEntity.Send_day = day;
                             //添加配送表记录
-                            AddSendInfo(newOrderEntity, payTime);
+                            AddSendInfo(newOrderEntity, payTime, day);
                         }
                     }
 
@@ -175,6 +182,7 @@ namespace ContentSystem.Service
                     var newOrderEntity = VmToEntity(item, orderEntity);
                     if (item.pay_time != null && item.pay_time != "")
                     {
+                        int day = 22;
                         //添加开始配送时间，结束配送时间，以及配送总天数
                         //开始配送时间，默认为订单支付成功后的一个工作日
                         int payTime = Convert.ToInt32(DateTime.Parse(item.pay_time).ToString("yyyyMMdd"));
@@ -185,9 +193,13 @@ namespace ContentSystem.Service
                         var endCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
                         && m.Status == 0).OrderBy(m => m.Day).Skip(21).Take(1).FirstOrDefault();
                         newOrderEntity.End_send = endCalendar.Day.ToString();
-                        newOrderEntity.Send_day = 22;
+                        if (item.payment == Decimal.Parse("1.00") || item.orders[0].outer_sku_id == "0000012" || item.orders[0].outer_sku_id == "0000002")
+                        {
+                            day = 1;
+                        }
+                        newOrderEntity.Send_day = day;
                         //添加配送表记录
-                        AddSendInfo(newOrderEntity, payTime);
+                        AddSendInfo(newOrderEntity, payTime, day);
 
                     }
                     else
@@ -243,10 +255,10 @@ namespace ContentSystem.Service
             OrderUserDetail(openIdList, token);
         }
 
-        private void AddSendInfo(Order o, int payTime)
+        private void AddSendInfo(Order o, int payTime, int num)
         {
             var calendarList = _repoCalendarInfo.Table.Where(m => m.Day > payTime
-                        && m.Status == 0).OrderBy(m => m.Day).Take(22);
+                        && m.Status == 0).OrderBy(m => m.Day).Take(num);
             foreach (CalendarInfo item in calendarList)
             {
                 _repoSendInfo.Insert(new SendInfo()
@@ -256,10 +268,6 @@ namespace ContentSystem.Service
                     Send_num = 1,
                     Send_time = DateTime.ParseExact(item.Day.ToString(), "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture).ToString("yyyy-MM-dd")
                 });
-                if (!o.Title.Contains("包月"))
-                {
-                    return;
-                }
             }
         }
 

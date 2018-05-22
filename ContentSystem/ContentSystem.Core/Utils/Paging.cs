@@ -146,6 +146,6 @@ namespace ContentSystem.Core.Utils
     /// </summary>
     public static class PagingConfig
     {
-        public const int PAGE_SIZE = 12;
+        public const int PAGE_SIZE = 50;
     }
 }
