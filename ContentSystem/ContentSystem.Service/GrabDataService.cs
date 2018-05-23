@@ -125,7 +125,10 @@ namespace ContentSystem.Service
                             {
                                 day = 1;
                             }
-
+                            else if (!item.title.Contains("包月配送"))
+                            {
+                                day = 1;
+                            }
                             newOrderEntity.Send_day = day;
                             //添加配送表记录
                             AddSendInfo(newOrderEntity, payTime, day);
@@ -194,6 +197,10 @@ namespace ContentSystem.Service
                         && m.Status == 0).OrderBy(m => m.Day).Skip(21).Take(1).FirstOrDefault();
                         newOrderEntity.End_send = endCalendar.Day.ToString();
                         if (item.payment == Decimal.Parse("1.00") || item.orders[0].outer_sku_id == "0000012" || item.orders[0].outer_sku_id == "0000002")
+                        {
+                            day = 1;
+                        }
+                        else if (!item.title.Contains("包月配送"))
                         {
                             day = 1;
                         }
