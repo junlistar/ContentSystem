@@ -261,7 +261,12 @@ namespace ContentSystem.Service
             //这里根据获取到的订单用户openid查找该用户的详细信息
             OrderUserDetail(openIdList, token);
         }
-
+        /// <summary>
+        /// 增加发货列表数据
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="payTime"></param>
+        /// <param name="num"></param>
         private void AddSendInfo(Order o, int payTime, int num)
         {
             var calendarList = _repoCalendarInfo.Table.Where(m => m.Day > payTime
@@ -428,5 +433,27 @@ namespace ContentSystem.Service
             var tokenModel = JsonHelper.ParseFormJson<TokenEntity>(toKenJsonStr);
             return tokenModel;
         }
+
+        public void UpdateGrabDataTime() {
+            //先获取数据库中的数据
+            var model = _repoSystemConfig.Table.Where(n => n.Title == "GrabTime").FirstOrDefault();
+            var tokenModel = new TokenEntity();
+            if (model != null)
+            {
+                model.Remarks = DateTime.Now.ToString();
+                _repoSystemConfig.Update(model);
+            }
+            else
+            {
+                //插入数据库
+                _repoSystemConfig.Insert(new SystemConfig()
+                {
+                    Title = "GrabTime",
+                    Val = "",
+                    Remarks = DateTime.Now.ToString(),
+                });
+            }
+        }
+
     }
 }
