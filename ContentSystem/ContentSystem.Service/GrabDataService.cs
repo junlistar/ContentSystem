@@ -62,6 +62,24 @@ namespace ContentSystem.Service
                     Remarks = "时间间隔",
                 });
             }
+
+            var modelZQ = _repoSystemConfig.Table.Where(n => n.Title == "GrabTime").FirstOrDefault();
+            if (modelZQ == null)
+            {
+                modelZQ = _repoSystemConfig.Insert(new SystemConfig()
+                {
+                    Title = "GrabTime",
+                    Val = DateTime.Now.ToString(),
+                    Remarks = "抓取时间",
+                });
+            }
+            else
+            {
+                modelZQ.Val = DateTime.Now.ToString();
+                _repoSystemConfig.Update(modelZQ);
+            }
+
+
             int page_no = 1;
             int page_size = 100;
             var orderList = new List<YzOrder>();
@@ -71,7 +89,7 @@ namespace ContentSystem.Service
             hb.Add("end_created", DateTime.Now);
             hb.Add("page_no", page_no);
             hb.Add("page_size", page_size);
-            hb.Add("fields", "tid,title,total_fee,pic_thumb_path,status_str,created,payment,buyer_message,shipping_type,receiver_state,receiver_city,receiver_district,receiver_address,receiver_mobile,fetch_detail,orders,fans_info,pay_time");
+            //hb.Add("fields", "tid,title,total_fee,pic_thumb_path,status_str,created,payment,buyer_message,shipping_type,receiver_state,receiver_city,receiver_district,receiver_address,receiver_mobile,fetch_detail,orders,fans_info,pay_time");
             //hb.Add("fields", "fetch_detail");
 
             ////tid,title,total_fee,pic_thumb_path,status_str,created,payment,buyer_message,shipping_type,receiver_state,receiver_city,receiver_district,receiver_address,receiver_mobile,fetcher_name,fetcher_mobile,fetch_time,shop_id,shop_name,shop_mobile,shop_state,shop_city,shop_district,shop_address
@@ -94,9 +112,28 @@ namespace ContentSystem.Service
             //这里执行插入数据库方法，先判断是否存在，存在则修改，不存在则添加
             foreach (YzOrder item in orderList)
             {
+                int skuId = 0;
+                if (item.orders != null)
+                {
+                    if (item.orders[0].item_id== 412663886
+                        || item.orders[0].item_id == 412664061)
+                    {
+                        continue;
+                    }
+                    if (item.orders[0].sku_id == 36199358
+                        || item.orders[0].sku_id == 36199358)
+                    {
+                        continue;
+                    }
+                    if (item.orders[0].sku_id == 36204514&&item.total_fee==decimal.Parse("0.10"))
+                    {
+                        continue;
+                    }
+                    skuId = item.orders[0].sku_id;
+                }
                 openIdList.Add(item.fans_info != null ? item.fans_info.fans_weixin_openid : "");
                 var orderEntity = _repoOrder.Table.Where(m => m.Tid == item.tid).FirstOrDefault();
-
+                int day = itemIdToDay(skuId);
                 //存在
                 if (orderEntity != null)
                 {
@@ -105,30 +142,26 @@ namespace ContentSystem.Service
                     if (item.pay_time != null && item.pay_time != "")
                     {
                         //先查询是否存在
-
                         var count = _repoSendInfo.Table.Where(m => m.Tid == item.tid).Count();
                         if (count == 0)
                         {
                             //添加开始配送时间，结束配送时间，以及配送总天数
                             //开始配送时间，默认为订单支付成功后的一个工作日
-                            //计算本订单的配送总天数
-                            int day = 22;
                             int payTime = Convert.ToInt32(DateTime.Parse(item.pay_time).ToString("yyyyMMdd"));
                             var startCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
                             && m.Status == 0).OrderBy(m => m.Day).FirstOrDefault();
                             newOrderEntity.Start_send = startCalendar.Day.ToString();
+                            if (day == 1)
+                            {
+                                newOrderEntity.End_send = startCalendar.Day.ToString();
+                            }
+                            else
+                            {
+                                var endCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
+                           && m.Status == 0).OrderBy(m => m.Day).Skip(day - 1).Take(1).FirstOrDefault();
+                                newOrderEntity.End_send = endCalendar.Day.ToString();
+                            }
                             //结束配送时间，默认为从开始配送时间往后算22个工作日
-                            var endCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
-                            && m.Status == 0).OrderBy(m => m.Day).Skip(21).Take(1).FirstOrDefault();
-                            newOrderEntity.End_send = endCalendar.Day.ToString();
-                            if (item.payment == Decimal.Parse("1.00") || item.orders[0].outer_sku_id == "0000012" || item.orders[0].outer_sku_id == "0000002")
-                            {
-                                day = 1;
-                            }
-                            else if (!item.title.Contains("包月配送"))
-                            {
-                                day = 1;
-                            }
                             newOrderEntity.Send_day = day;
                             //添加配送表记录
                             AddSendInfo(newOrderEntity, payTime, day);
@@ -168,6 +201,7 @@ namespace ContentSystem.Service
                             Outer_sku_id = item1.outer_sku_id,
                             Price = item1.price,
                             sku_id = item1.sku_id,
+                            sku_name = item1.sku_properties_name,
                             Tid = item.tid,
                             Title = item1.title,
                             Total_fee = item1.total_fee,
@@ -185,25 +219,23 @@ namespace ContentSystem.Service
                     var newOrderEntity = VmToEntity(item, orderEntity);
                     if (item.pay_time != null && item.pay_time != "")
                     {
-                        int day = 22;
                         //添加开始配送时间，结束配送时间，以及配送总天数
                         //开始配送时间，默认为订单支付成功后的一个工作日
                         int payTime = Convert.ToInt32(DateTime.Parse(item.pay_time).ToString("yyyyMMdd"));
                         var startCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
                         && m.Status == 0).OrderBy(m => m.Day).FirstOrDefault();
                         newOrderEntity.Start_send = startCalendar.Day.ToString();
+                        if (day == 1)
+                        {
+                            newOrderEntity.End_send = startCalendar.Day.ToString();
+                        }
+                        else
+                        {
+                            var endCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
+                       && m.Status == 0).OrderBy(m => m.Day).Skip(day - 1).Take(1).FirstOrDefault();
+                            newOrderEntity.End_send = endCalendar.Day.ToString();
+                        }
                         //结束配送时间，默认为从开始配送时间往后算22个工作日
-                        var endCalendar = _repoCalendarInfo.Table.Where(m => m.Day > payTime
-                        && m.Status == 0).OrderBy(m => m.Day).Skip(21).Take(1).FirstOrDefault();
-                        newOrderEntity.End_send = endCalendar.Day.ToString();
-                        if (item.payment == Decimal.Parse("1.00") || item.orders[0].outer_sku_id == "0000012" || item.orders[0].outer_sku_id == "0000002")
-                        {
-                            day = 1;
-                        }
-                        else if (!item.title.Contains("包月配送"))
-                        {
-                            day = 1;
-                        }
                         newOrderEntity.Send_day = day;
                         //添加配送表记录
                         AddSendInfo(newOrderEntity, payTime, day);
@@ -215,9 +247,6 @@ namespace ContentSystem.Service
                         newOrderEntity.End_send = "";
                         newOrderEntity.Send_day = 0;
                     }
-
-                    //配送总天数默认为22天。
-
 
                     _repoOrder.Insert(newOrderEntity);
                     foreach (Orders item1 in item.orders)
@@ -248,6 +277,7 @@ namespace ContentSystem.Service
                             Price = item1.price,
                             sku_id = item1.sku_id,
                             Tid = item.tid,
+                            sku_name = item1.sku_properties_name,
                             Title = item1.title,
                             Total_fee = item1.total_fee,
                             Wx_no = wx_no,
@@ -261,6 +291,27 @@ namespace ContentSystem.Service
             //这里根据获取到的订单用户openid查找该用户的详细信息
             OrderUserDetail(openIdList, token);
         }
+
+        private int itemIdToDay(int skuId)
+        {
+            int day = 0;
+            if (skuId == 0||skuId== 36213562||skuId== 36198316)
+            {
+                day = 1;
+            }
+            else if (skuId == 36198312)
+            {
+                day = 5;
+            }
+            else if (skuId == 36196936 || skuId == 36198310
+                || skuId == 36198314 || skuId == 36203732
+                || skuId == 36204514 || skuId == 36213805)
+            {
+                day = 22;
+            }
+            return day;
+        }
+
         /// <summary>
         /// 增加发货列表数据
         /// </summary>
@@ -434,7 +485,8 @@ namespace ContentSystem.Service
             return tokenModel;
         }
 
-        public void UpdateGrabDataTime() {
+        public void UpdateGrabDataTime()
+        {
             //先获取数据库中的数据
             var model = _repoSystemConfig.Table.Where(n => n.Title == "GrabTime").FirstOrDefault();
             var tokenModel = new TokenEntity();

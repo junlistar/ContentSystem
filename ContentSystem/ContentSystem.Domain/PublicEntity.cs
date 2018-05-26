@@ -190,6 +190,10 @@ namespace ContentSystem.Domain
             /// </summary>
             public int num { get; set; }
             /// <summary>
+            /// sku说明
+            /// </summary>
+            public string sku_properties_name { get; set; }
+            /// <summary>
             /// 买家自定义附加留言
             /// </summary>
             public List<buyer_messages> buyer_messages { get; set; }

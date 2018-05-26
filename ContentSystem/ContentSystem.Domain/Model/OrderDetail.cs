@@ -23,7 +23,8 @@ namespace ContentSystem.Domain.Model
         public virtual int Num { get; set; }
         public virtual string Wx_no { get; set; }
         public virtual string Taboo { get; set; }
-         
+        public virtual string sku_name { get; set; }
+
 
     }
 
